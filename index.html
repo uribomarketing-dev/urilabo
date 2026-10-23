@@ -34,7 +34,17 @@
 .mobile-cta .cta-tel{background:linear-gradient(135deg,#1f8aa3,#176a82);color:#fff}
 .mobile-cta .cta-mail{background:#fff;color:#143a88;border:2px solid #f5c400}
 .mobile-cta .cta-line{background:linear-gradient(135deg,#0aa84f,#058a3c);color:#fff}
-</style>
+/* v14: 最新のお知らせ帯（プレスリリース） */
+.news-bar{position:relative;z-index:2;background:var(--paper);border-bottom:1px solid var(--line)}
+.base-banner.is-closed+.news-bar{margin-top:var(--header)}
+.news-bar .container{display:flex;align-items:center;gap:10px 14px;padding:10px 0;flex-wrap:wrap}
+.news-bar .news-tag{flex:0 0 auto;background:var(--yellow);color:#332900;font-weight:800;font-size:.78rem;padding:.2rem .65rem;border-radius:6px}
+.news-bar time{flex:0 0 auto;font:800 .9rem Manrope,"Noto Sans JP",sans-serif;color:var(--muted)}
+.news-bar .news-title{flex:1 1 280px;min-width:0;font-weight:700;color:var(--ink);text-decoration:none}
+.news-bar .news-title:hover{text-decoration:underline}
+.news-bar .news-all{flex:0 0 auto;font-weight:700;font-size:.88rem;color:var(--orange-dark)}
+@media(max-width:640px){.news-bar .container{flex-wrap:nowrap;padding:8px 0;gap:8px}.news-bar time{display:none}.news-bar .news-title{flex:1 1 auto;font-size:.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.news-bar .news-all{font-size:.8rem;white-space:nowrap}.news-bar .news-tag{font-size:.7rem;padding:.15rem .45rem}}
+.news-bar .nt-short{display:none}@media(max-width:640px){.news-bar .nt-long{display:none}.news-bar .nt-short{display:inline}}</style>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"DX特化型・事業創出型 就労継続支援B型作業所 うりぼラボ","url":"https://uribomarketing-dev.github.io/urilabo/","telephone":"070-8482-5454","image":"https://uribomarketing-dev.github.io/urilabo/images/ogp.jpg","address":{"@type":"PostalAddress","postalCode":"892-0802","addressRegion":"鹿児島県","addressLocality":"鹿児島市","streetAddress":"清水町12-15 ロイヤルハイツ清水102号室"}}</script>
 <script>addEventListener('load',()=>{const s=document.createElement('style');s.textContent=`@font-face{font-family:"Noto Sans JP";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/notosansjp-400.woff2) format("woff2")}@font-face{font-family:"Noto Sans JP";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/notosansjp-700.woff2) format("woff2")}@font-face{font-family:"Zen Kaku Gothic New";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/zenkakugothicnew-700.woff2) format("woff2")}@font-face{font-family:"Manrope";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/manrope-800.woff2) format("woff2")}`;document.head.appendChild(s)})</script></head>
 <body>
@@ -52,6 +62,7 @@
 
   <main id="main">
     <div class="base-banner" role="region" aria-label="うりぼベースのお知らせ" id="base-banner"><div class="container"><div><span class="tag">グループホーム</span><strong><span class="banner-long">うりぼベース 玉里・清水 2棟オープン</span><span class="banner-short">うりぼベース 2棟オープン</span></strong><small class="banner-detail">令和8年6月3日開設／男性棟・各定員4名</small></div><a class="btn btn-secondary" href="https://urilabo.com/base" data-track="banner_base">詳しくはこちら</a><button class="banner-close" type="button" aria-label="お知らせを閉じる" data-close-banner>×</button></div></div>
+    <div class="news-bar" role="region" aria-label="最新の動き"><div class="container"><span class="news-tag">最新の動き</span><time datetime="2026-10-22">2026.10.22</time><a class="news-title" href="https://inoya.tokyo/history/press/20261022_1-44-launch.html" target="_blank" rel="noopener" data-track="news_latest"><span class="nt-long">うりぼラボから新ブランド「1-44 by Uribo labo」が始動。1号商品の開発もスタート</span><span class="nt-short">新ブランド「1-44」が始動</span></a><a class="news-all" href="https://inoya.tokyo/history/" target="_blank" rel="noopener" data-track="news_all">一覧 →</a></div></div>
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-media" aria-hidden="true"><img class="hero-slide" src="images/hero_01.webp" srcset="images/hero_01_640.webp 640w, images/hero_01_960.webp 960w, images/hero_01.webp 1600w" sizes="100vw" width="1600" height="1200" alt="" fetchpriority="high" decoding="async"><img class="hero-slide" data-src="images/spoon_01.webp" data-src-mobile="images/spoon_01_m.webp" width="1600" height="1201" alt="" decoding="async"><img class="hero-slide" data-src="images/farm_01.webp" width="800" height="1067" alt="" decoding="async"></div>
       <div class="container hero-copy">
