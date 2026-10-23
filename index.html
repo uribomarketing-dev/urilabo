@@ -47,6 +47,15 @@
 .news-title:hover{text-decoration:underline}
 .news-all{flex:0 0 auto;font-weight:700;font-size:.88rem;color:var(--orange-dark)}
 @media(max-width:640px){.news-row{gap:8px}.news-row time{display:none}.news-tag{flex-basis:5.6em;font-size:.68rem;padding:.15rem .2rem}.news-title{font-size:.84rem;line-height:1.45;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.news-all{font-size:.78rem;white-space:nowrap}}
+/* v16: うりぼラボの歩み（ラボ関連プレスリリース・自動更新） */
+.history-grid{display:grid;gap:14px;margin-top:28px;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.history-card{display:flex;flex-direction:column;gap:8px;border-top:5px solid var(--orange)}
+.history-card time{font:800 .9rem Manrope,"Noto Sans JP",sans-serif;color:var(--orange-dark);letter-spacing:.06em}
+.history-card h3{margin:0;font-family:"Zen Kaku Gothic New",sans-serif;font-size:1.15rem;line-height:1.45}
+.history-card h3 a{text-decoration:none;color:var(--ink)}.history-card h3 a:hover{text-decoration:underline}
+.history-card p{margin:0;font-size:.92rem;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.history-more{margin-top:auto;font-weight:800;font-size:.88rem;color:var(--orange-dark)}
+.history-all{margin:28px 0 0;text-align:center}@media(max-width:640px){.history-card:nth-child(n+4){display:none}}
 </style>
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"LocalBusiness","name":"DX特化型・事業創出型 就労継続支援B型作業所 うりぼラボ","url":"https://uribomarketing-dev.github.io/urilabo/","telephone":"070-8482-5454","image":"https://uribomarketing-dev.github.io/urilabo/images/ogp.jpg","address":{"@type":"PostalAddress","postalCode":"892-0802","addressRegion":"鹿児島県","addressLocality":"鹿児島市","streetAddress":"清水町12-15 ロイヤルハイツ清水102号室"}}</script>
 <script>addEventListener('load',()=>{const s=document.createElement('style');s.textContent=`@font-face{font-family:"Noto Sans JP";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/notosansjp-400.woff2) format("woff2")}@font-face{font-family:"Noto Sans JP";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/notosansjp-700.woff2) format("woff2")}@font-face{font-family:"Zen Kaku Gothic New";font-style:normal;font-weight:700;font-display:swap;src:url(fonts/zenkakugothicnew-700.woff2) format("woff2")}@font-face{font-family:"Manrope";font-style:normal;font-weight:800;font-display:swap;src:url(fonts/manrope-800.woff2) format("woff2")}`;document.head.appendChild(s)})</script></head>
@@ -113,6 +122,18 @@
         <article class="project-card reveal"><img src="images/market_02.webp" srcset="images/market_02_720.webp 720w, images/market_02.webp 720w" sizes="(max-width: 767px) 84vw, 388px" alt="マルシェの売場に並ぶナウル共和国の缶バッジ" loading="lazy" decoding="async" width="1000" height="1333"><div class="card-body"><span class="card-index">PROJECT 05</span><h3>ナウル政府観光協力店</h3><p>太平洋の島国ナウルの公式観光協力店として、ラボ内に小さなショップを運営。世界とつながる入口です。</p></div></article>
       </div>
       <div class="container media-strip"><h3>メディア掲載</h3><div class="media-list" tabindex="0"><span>南日本新聞</span><span>西日本新聞</span><span>毎日新聞デジタル</span><span>時事ドットコム</span><span>PRESIDENT Online</span><span>東洋経済オンライン</span><span>NewsPicks</span><span>NIKKEI COMPASS</span><span>テレ東プラス</span><span>TBS NEWS DIG</span><span>財経新聞</span><span>ニコニコニュース</span></div></div>
+    </section>
+
+    <section class="section" id="history" aria-labelledby="history-title">
+      <div class="container">
+        <p class="eyebrow">Press &amp; news</p>
+        <h2 class="section-title reveal" id="history-title">うりぼラボの歩み</h2>
+        <p class="lead">プレスリリースから、ラボに関わる動きを新しい順に紹介します。</p>
+        <div class="history-grid"><!--HISTORY:START-->
+        <article class="card history-card"><time datetime="2025-10-01">2025.10.01</time><h3><a href="https://inoya.tokyo/history/press/20251001_urilabo-opened.html" target="_blank" rel="noopener" data-track="history_card">就労継続支援B型「うりぼラボ」を鹿児島市清水町に開所</a></h3><p>DX特化型・事業創出型の就労継続支援B型作業所。企業と一緒に仕事をつくる作業所として始まりました。</p><a class="history-more" href="https://inoya.tokyo/history/press/20251001_urilabo-opened.html" target="_blank" rel="noopener">プレスリリースを読む →</a></article>
+        <!--HISTORY:END--></div>
+        <p class="history-all"><a class="btn btn-secondary" href="https://inoya.tokyo/history/" target="_blank" rel="noopener" data-track="history_all">社歴・プレスリリースをすべて見る</a></p>
+      </div>
     </section>
 
     <section class="section" id="day" aria-labelledby="day-title"><div class="container"><div class="split"><div><p class="eyebrow">A day at Uribo</p><h2 class="section-title reveal" id="day-title">ある日のうりぼラボ。</h2><p class="lead reveal">年中無休で開所しています。送迎もあります。午前のみ、午後のみの通所も相談できます。</p></div><figure class="photo-card reveal"><img src="images/room_03.webp" srcset="images/room_03_720.webp 720w, images/room_03.webp 720w" sizes="(max-width: 767px) 73vw, 450px" alt="作業机の上の工具トレイとビーズデザインボード。モニターには手元の拡大映像" loading="lazy" decoding="async" width="1000" height="1333"></figure></div>

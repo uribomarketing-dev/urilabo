@@ -1,8 +1,12 @@
 #!/usr/bin/env python3
-"""index.html の「最新の動き」帯を、noteのRSSと inoya.tokyo/history/ から自動更新する。
+"""index.html の自動更新ブロックを、noteのRSSと inoya.tokyo/history/ から更新する。
 
-- 標準ライブラリのみ。取得・解析に失敗した行は現状維持（壊れた表示を出さない）。
-- index.html 内の <!--NEWS:START--> と <!--NEWS:END--> の間だけを書き換える。
+更新対象（index.html 内のマーカーの間だけ書き換える）
+  <!--NEWS:START-->…<!--NEWS:END-->        上部「最新の動き」帯（プレスリリース最新1件＋note最新1件）
+  <!--HISTORY:START-->…<!--HISTORY:END-->  「うりぼラボの歩み」（ラボ関連のプレスリリース最新6件）
+
+- 標準ライブラリのみ。取得・解析に失敗したブロックは現状維持（壊れた表示を出さない）。
+- リンク先は inoya.tokyo/history/ と note.com/inovision/ のURLだけ許可する。
 - テスト用: NOTE_RSS_FILE / HISTORY_HTML_FILE でローカルファイルを指定できる。
 """
 import html, os, re, sys, urllib.request
@@ -14,9 +18,13 @@ from html.parser import HTMLParser
 RSS_URL = "https://note.com/inovision/rss"
 HISTORY_URL = "https://inoya.tokyo/history/"
 NOTE_PORTAL = "https://note.com/inovision"
-ALLOWED = {"press": "https://inoya.tokyo/history/", "note": "https://note.com/inovision/"}
+ALLOWED_PRESS = "https://inoya.tokyo/history/"
+ALLOWED_NOTE = "https://note.com/inovision/"
+LAB_KEYWORD = "ラボ"      # タイトル・要約にこの語を含むリリースを「ラボ関連」とみなす
+LAB_COUNT = 6
 INDEX = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "index.html")
 JST = timezone(timedelta(hours=9))
+E = html.escape
 
 
 def fetch(url, env_name):
@@ -47,17 +55,18 @@ def short_title(t):
 
 
 class HistoryParser(HTMLParser):
-    """li.ev > article の time[datetime] と h3 > a[href] を拾う。"""
+    """li.ev > article の time[datetime]、h3 > a[href]、p.sum を拾う。"""
 
     def __init__(self):
         super().__init__()
         self.items, self.cur = [], None
-        self.in_h3 = self.in_a = False
+        self.in_h3 = self.in_a = self.in_sum = False
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
-        if tag == "li" and "ev" in (a.get("class") or "").split():
-            self.cur = {"date": None, "href": None, "title": ""}
+        cls = (a.get("class") or "").split()
+        if tag == "li" and "ev" in cls:
+            self.cur = {"date": None, "href": None, "title": "", "sum": ""}
         elif self.cur is not None:
             if tag == "time" and a.get("datetime"):
                 self.cur["date"] = a["datetime"]
@@ -65,53 +74,58 @@ class HistoryParser(HTMLParser):
                 self.in_h3 = True
             elif tag == "a" and self.in_h3 and a.get("href"):
                 self.cur["href"], self.in_a = a["href"], True
+            elif tag == "p" and "sum" in cls:
+                self.in_sum = True
 
     def handle_endtag(self, tag):
         if tag == "a":
             self.in_a = False
         elif tag == "h3":
             self.in_h3 = False
+        elif tag == "p":
+            self.in_sum = False
         elif tag == "article" and self.cur is not None:
             c, self.cur = self.cur, None
             if c["date"] and c["href"] and c["title"].strip():
                 self.items.append(c)
 
     def handle_data(self, data):
-        if self.cur is not None and self.in_a:
+        if self.cur is None:
+            return
+        if self.in_a:
             self.cur["title"] += data
+        elif self.in_sum:
+            self.cur["sum"] += data
 
 
 def date_key(d):
     m = re.fullmatch(r"(\d{4})-(\d{2})(?:-(\d{2}))?", d)
-    if not m:
-        return None
-    return (int(m[1]), int(m[2]), int(m[3] or 0))
+    return (int(m[1]), int(m[2]), int(m[3] or 0)) if m else None
 
 
-def date_label(key):
-    y, mo, d = key
-    return f"{y}.{mo:02d}.{d:02d}" if d else f"{y}.{mo:02d}"
+def date_label(k):
+    return f"{k[0]}.{k[1]:02d}.{k[2]:02d}" if k[2] else f"{k[0]}.{k[1]:02d}"
 
 
-def date_iso(key):
-    y, mo, d = key
-    return f"{y}-{mo:02d}-{d:02d}" if d else f"{y}-{mo:02d}"
+def date_iso(k):
+    return f"{k[0]}-{k[1]:02d}-{k[2]:02d}" if k[2] else f"{k[0]}-{k[1]:02d}"
 
 
-def latest_press():
+def press_items():
     p = HistoryParser()
     p.feed(fetch(HISTORY_URL, "HISTORY_HTML_FILE"))
-    best = None
+    out = []
     for it in p.items:
         k = date_key(it["date"])
         if not k:
             continue
         url = it["href"] if it["href"].startswith("http") else HISTORY_URL + it["href"].lstrip("./")
-        if not url.startswith(ALLOWED["press"]):
+        if not url.startswith(ALLOWED_PRESS):
             continue
-        if best is None or k > best[0]:
-            best = (k, short_title(it["title"]), url)
-    return best
+        out.append({"key": k, "title": short_title(it["title"]),
+                    "sum": re.sub(r"\s+", " ", it["sum"]).strip(), "url": url})
+    out.sort(key=lambda x: x["key"], reverse=True)
+    return out
 
 
 def latest_note():
@@ -121,59 +135,90 @@ def latest_note():
         title = (item.findtext("title") or "").strip()
         link = (item.findtext("link") or "").strip()
         pub = item.findtext("pubDate")
-        if not (title and link and pub) or not link.startswith(ALLOWED["note"]):
+        if not (title and link and pub) or not link.startswith(ALLOWED_NOTE):
             continue
         dt = parsedate_to_datetime(pub).astimezone(JST)
         k = (dt.year, dt.month, dt.day)
-        if best is None or k > best[0]:
-            best = (k, title, link)
+        if best is None or k > best["key"]:
+            best = {"key": k, "title": title, "url": link}
     return best
 
 
-def row(tag_html, rec, all_url, all_label):
-    k, title, url = rec
-    e = html.escape
+def news_row(tag_html, rec, all_url, kind):
     return (
-        f'<div class="news-row">{tag_html}<time datetime="{date_iso(k)}">{date_label(k)}</time>'
-        f'<a class="news-title" href="{e(url, quote=True)}" target="_blank" rel="noopener" '
-        f'data-track="news_{"note" if "note.com" in url else "press"}">{e(title)}</a>'
-        f'<a class="news-all" href="{all_url}" target="_blank" rel="noopener">{all_label}</a></div>'
+        f'<div class="news-row">{tag_html}<time datetime="{date_iso(rec["key"])}">{date_label(rec["key"])}</time>'
+        f'<a class="news-title" href="{E(rec["url"], quote=True)}" target="_blank" rel="noopener" '
+        f'data-track="news_{kind}">{E(rec["title"])}</a>'
+        f'<a class="news-all" href="{all_url}" target="_blank" rel="noopener">一覧 →</a></div>'
     )
+
+
+def history_card(it):
+    s = f'<p>{E(it["sum"])}</p>' if it["sum"] else ""
+    return (
+        f'<article class="card history-card"><time datetime="{date_iso(it["key"])}">{date_label(it["key"])}</time>'
+        f'<h3><a href="{E(it["url"], quote=True)}" target="_blank" rel="noopener" data-track="history_card">{E(it["title"])}</a></h3>'
+        f'{s}<a class="history-more" href="{E(it["url"], quote=True)}" target="_blank" rel="noopener">プレスリリースを読む →</a></article>'
+    )
+
+
+def replace_block(src, name, new_inner):
+    pat = re.compile(rf"(<!--{name}:START-->)(.*?)(<!--{name}:END-->)", re.S)
+    m = pat.search(src)
+    if not m:
+        print(f"{name}: markers not found", file=sys.stderr)
+        return src, False
+    if m.group(2) == new_inner:
+        return src, False
+    return src[: m.start(2)] + new_inner + src[m.end(2):], True
+
+
+def old_news_rows(src):
+    m = re.search(r"<!--NEWS:START-->(.*?)<!--NEWS:END-->", src, re.S)
+    return re.findall(r'<div class="news-row">.*?</div>', m.group(1), re.S) if m else []
 
 
 def main():
     src = open(INDEX, encoding="utf-8").read()
-    m = re.search(r"<!--NEWS:START-->(.*?)<!--NEWS:END-->", src, re.S)
-    if not m:
-        print("markers not found", file=sys.stderr)
-        return 1
-    old = m.group(1)
-    old_rows = re.findall(r'<div class="news-row">.*?</div>', old, re.S)
+    changed = False
 
+    try:
+        items = press_items()
+    except Exception as ex:
+        print(f"press: fetch/parse failed ({ex}); keeping current", file=sys.stderr)
+        items = []
+    try:
+        note = latest_note()
+    except Exception as ex:
+        print(f"note: fetch/parse failed ({ex}); keeping current", file=sys.stderr)
+        note = None
+
+    # 1) 最新の動き帯
+    old = old_news_rows(src)
     rows = []
-    for name, fn, tag, all_url, all_label in [
-        ("press", latest_press, '<span class="news-tag">最新の動き</span>', HISTORY_URL, "一覧 →"),
-        ("note", latest_note, '<span class="news-tag news-tag-note">note</span>', NOTE_PORTAL, "一覧 →"),
-    ]:
-        try:
-            rec = fn()
-        except Exception as ex:  # 取得失敗は現状維持
-            print(f"{name}: fetch/parse failed ({ex}); keeping current", file=sys.stderr)
-            rec = None
-        idx = 0 if name == "press" else 1
-        if rec:
-            rows.append(row(tag, rec, all_url, all_label))
-        elif idx < len(old_rows):
-            rows.append(old_rows[idx])
-    if not rows:
-        print("nothing to write", file=sys.stderr)
-        return 0
-    new = "\n      " + "\n      ".join(rows) + "\n      "
-    if new == old:
+    if items:
+        rows.append(news_row('<span class="news-tag">最新の動き</span>', items[0], HISTORY_URL, "press"))
+    elif old:
+        rows.append(old[0])
+    if note:
+        rows.append(news_row('<span class="news-tag news-tag-note">note</span>', note, NOTE_PORTAL, "note"))
+    elif len(old) > 1:
+        rows.append(old[1])
+    if rows:
+        src, c = replace_block(src, "NEWS", "\n      " + "\n      ".join(rows) + "\n      ")
+        changed |= c
+
+    # 2) うりぼラボの歩み
+    lab = [i for i in items if LAB_KEYWORD in i["title"] + i["sum"]][:LAB_COUNT]
+    if lab:
+        cards = "\n        ".join(history_card(i) for i in lab)
+        src, c = replace_block(src, "HISTORY", "\n        " + cards + "\n        ")
+        changed |= c
+
+    if not changed:
         print("no change")
         return 0
-    out = src[: m.start(1)] + new + src[m.end(1):]
-    open(INDEX, "w", encoding="utf-8").write(out)
+    open(INDEX, "w", encoding="utf-8").write(src)
     print("updated")
     return 0
 
