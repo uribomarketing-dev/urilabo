@@ -1,0 +1,36 @@
+name: update-news
+
+# note と inoya.tokyo/history/ の最新を取得し、index.html の「最新の動き」帯を自動更新する
+on:
+  schedule:
+    - cron: "17 */6 * * *"   # 6時間ごと（UTC）
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: update-news
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Update news bar
+        run: python3 scripts/update_news.py
+      - name: Commit and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "no change"; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "最新の動き帯を自動更新"
+          git push
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
