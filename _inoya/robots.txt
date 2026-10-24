@@ -1,0 +1,18 @@
+# HOUSE OF INOYA — inoya.tokyo
+# AI検索（ChatGPT検索・ユーザー参照）は許可。GPTBot（学習用収集）のみ拒否。
+# GPTBotの拒否はChatGPT検索への掲載には影響しません。
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://inoya.tokyo/sitemap.xml
+Sitemap: https://inoya.tokyo/history/sitemap.xml
