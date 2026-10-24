@@ -1,0 +1,16 @@
+# うりぼラボ — urilabo.com
+# AI検索（ChatGPT検索・ユーザー参照）は許可。GPTBot（学習用収集）のみ拒否。
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: *
+Allow: /
+
+Sitemap: https://urilabo.com/sitemap.xml
