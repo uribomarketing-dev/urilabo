@@ -1,0 +1,48 @@
+name: deploy-conoha
+
+# main に変更が入ったら（自動更新ボットの変更も含む）ConoHaの urilabo.com へFTPSで差分だけアップロードする。
+# リポジトリに無いファイル（.htaccess、base/、smaho/ など）は触らない。
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "docs/**"
+      - "scripts/**"
+      - ".github/workflows/update-news.yml"
+  workflow_run:
+    workflows: ["update-news"]
+    types: [completed]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-conoha
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    # update-news が失敗したときは動かさない
+    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Upload to ConoHa (FTPS, changed files only)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          protocol: ftps
+          server-dir: ${{ vars.FTP_DIR || './' }}
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            scripts/**
+            docs/**
+            CNAME
+            .htaccess
