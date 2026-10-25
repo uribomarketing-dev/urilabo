@@ -49,8 +49,21 @@ jobs:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
         run: |
           mkdir -p ~/.ssh
-          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_deploy
+          # 貼り付け時に改行が崩れても（CRLF・前後の空白・改行が空白に化ける等）鍵の形に組み直す
+          python3 - <<'PY'
+          import os, re
+          k = os.environ["SSH_PRIVATE_KEY"].replace("\r", "").strip()
+          m = re.search(r"(-----BEGIN [A-Z ]+-----)(.*?)(-----END [A-Z ]+-----)", k, re.S)
+          if not m:
+              raise SystemExit("SSH_PRIVATE_KEY の形式が正しくありません（BEGIN/END 行が見つかりません）")
+          body = re.sub(r"\s+", "", m.group(2))
+          lines = [body[i:i + 64] for i in range(0, len(body), 64)]
+          path = os.path.expanduser("~/.ssh/id_deploy")
+          with open(path, "w") as f:
+              f.write(m.group(1) + "\n" + "\n".join(lines) + "\n" + m.group(3) + "\n")
+          PY
           chmod 600 ~/.ssh/id_deploy
+          ssh-keygen -y -f ~/.ssh/id_deploy > /dev/null && echo "鍵の読み込みOK"
           ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
 
       - name: Upload to ConoHa (rsync over SSH, changed files only, no delete)
