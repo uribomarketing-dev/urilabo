@@ -1,7 +1,15 @@
 name: deploy-conoha
 
-# main に変更が入ったら（自動更新ボットの変更も含む）ConoHaの urilabo.com へFTPSで差分だけアップロードする。
-# リポジトリに無いファイル（.htaccess、base/、smaho/ など）は触らない。
+# main に変更が入ったら（自動更新ボットの変更も含む）ConoHa WING の urilabo.com へ
+# SSH（ポート8022）経由の rsync で、変わったファイルだけアップロードする。
+# 削除はしない（--delete なし）。リポジトリに無いファイル（.htaccess、base/、smaho/ など）は触らない。
+#
+# 必要な Secrets：
+#   SSH_HOST         … www1189.conoha.ne.jp
+#   SSH_USER         … ConoHa WING の SSH ユーザー名（c から始まる英数字）
+#   SSH_PRIVATE_KEY  … ConoHa で作成した SSH 秘密鍵（.pem の中身をまるごと）
+# 任意の Variables：
+#   SSH_DIR          … アップロード先（未設定なら public_html/urilabo.com/）
 on:
   push:
     branches: [main]
@@ -26,23 +34,33 @@ jobs:
     # update-news が失敗したときは動かさない
     if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PORT: "8022"
+      SSH_DIR: ${{ vars.SSH_DIR || 'public_html/urilabo.com/' }}
     steps:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Upload to ConoHa (FTPS, changed files only)
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
-        with:
-          server: ${{ secrets.FTP_SERVER }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          server-dir: ${{ vars.FTP_DIR || './' }}
-          exclude: |
-            **/.git*
-            **/.git*/**
-            .github/**
-            scripts/**
-            docs/**
-            CNAME
-            .htaccess
+
+      - name: Set up SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Upload to ConoHa (rsync over SSH, changed files only, no delete)
+        run: |
+          rsync -rltvz --checksum \
+            --exclude='.git*' \
+            --exclude='.github/' \
+            --exclude='scripts/' \
+            --exclude='docs/' \
+            --exclude='CNAME' \
+            --exclude='.htaccess' \
+            -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT" \
+            ./ "$SSH_USER@$SSH_HOST:$SSH_DIR"
