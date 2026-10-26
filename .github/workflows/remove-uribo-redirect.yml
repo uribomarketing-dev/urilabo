@@ -45,8 +45,9 @@ jobs:
 
       - name: Show and remove the /uribo redirect
         run: |
+          set -o pipefail
           ssh -i ~/.ssh/id_deploy -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
-            "DIR='$SSH_DIR' DRY='${{ inputs.dry_run }}' bash -s" <<'REMOTE'
+            "DIR='$SSH_DIR' DRY='${{ inputs.dry_run }}' bash -s" <<'REMOTE' | tee /tmp/remote.log
           set -e
           cd "$DIR"
           F=.htaccess
@@ -71,6 +72,13 @@ jobs:
           echo "=== 差分 ==="
           diff "$BAK" "$F" || true
           REMOTE
+          true
+
+      - name: Publish result as annotation
+        if: always()
+        run: |
+          body=$(sed 's/%/%25/g' /tmp/remote.log 2>/dev/null | sed ':a;N;$!ba;s/\n/%0A/g' | cut -c1-3500)
+          echo "::notice title=htaccess result::${body}"
 
       - name: Verify /uribo/ is served (not redirected to /base/)
         if: ${{ inputs.dry_run == 'false' }}
