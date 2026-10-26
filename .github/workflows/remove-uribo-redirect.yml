@@ -1,0 +1,83 @@
+name: remove-uribo-redirect
+
+# 手動実行専用（Actions タブ → remove-uribo-redirect → Run workflow）。
+# ConoHa の .htaccess から「/uribo → /base/」の転送だけを消す。
+# 手順：①バックアップ（.htaccess.bak-日時）②該当行だけ削除 ③差分を表示 ④/uribo/ の表示を確認
+# dry_run=true（初期値）なら、消す行の表示だけで何も変更しない。
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "true=確認だけ（変更しない） / false=実際に削除する"
+        required: true
+        default: "true"
+
+permissions:
+  contents: read
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PORT: "8022"
+      SSH_DIR: ${{ vars.SSH_DIR || 'public_html/urilabo.com/' }}
+    steps:
+      - name: Set up SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          python3 - <<'PY'
+          import os, re
+          k = os.environ["SSH_PRIVATE_KEY"].replace("\r", "").strip()
+          m = re.search(r"(-----BEGIN [A-Z ]+-----)(.*?)(-----END [A-Z ]+-----)", k, re.S)
+          if not m:
+              raise SystemExit("SSH_PRIVATE_KEY の形式が正しくありません")
+          body = re.sub(r"\s+", "", m.group(2))
+          lines = [body[i:i + 64] for i in range(0, len(body), 64)]
+          with open(os.path.expanduser("~/.ssh/id_deploy"), "w") as f:
+              f.write(m.group(1) + "\n" + "\n".join(lines) + "\n" + m.group(3) + "\n")
+          PY
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: Show and remove the /uribo redirect
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "DIR='$SSH_DIR' DRY='${{ inputs.dry_run }}' bash -s" <<'REMOTE'
+          set -e
+          cd "$DIR"
+          F=.htaccess
+          [ -f "$F" ] || { echo ".htaccess が見つかりません"; exit 1; }
+          # /uribo を含み、かつ転送（Redirect / RewriteRule）である行だけが対象
+          PAT='^[[:space:]]*(Redirect(Match|Permanent)?[[:space:]].*uribo|RewriteRule[[:space:]].*uribo)'
+          echo "=== 現在の .htaccess の uribo を含む行 ==="
+          grep -n -i 'uribo' "$F" || echo "(なし)"
+          echo "=== 削除対象の行 ==="
+          grep -n -E "$PAT" "$F" || { echo "削除対象なし（すでに転送が無い可能性）"; exit 0; }
+          if [ "$DRY" != "false" ]; then
+            echo "dry_run のため変更しません。内容が正しければ dry_run=false で再実行してください。"
+            exit 0
+          fi
+          BAK=".htaccess.bak-$(date +%Y%m%d-%H%M%S)"
+          cp -p "$F" "$BAK"
+          grep -v -E "$PAT" "$BAK" > "$F.new"
+          # 空になる・極端に短くなる場合は中止
+          [ -s "$F.new" ] || { echo "結果が空のため中止"; rm -f "$F.new"; exit 1; }
+          mv "$F.new" "$F"
+          echo "バックアップ: $BAK"
+          echo "=== 差分 ==="
+          diff "$BAK" "$F" || true
+          REMOTE
+
+      - name: Verify /uribo/ is served (not redirected to /base/)
+        if: ${{ inputs.dry_run == 'false' }}
+        run: |
+          sleep 5
+          code=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' https://urilabo.com/uribo/)
+          echo "https://urilabo.com/uribo/ -> $code"
+          title=$(curl -s https://urilabo.com/uribo/ | grep -o '<title>[^<]*' | head -1)
+          echo "$title"
+          echo "$title" | grep -q '合同会社Uribo' || { echo "LPが表示されていません"; exit 1; }
