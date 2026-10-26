@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同会社Uribo｜暮らす・はたらく・食べる・つくる（鹿児島）</title>
+<meta name="description" content="グループホーム「うりぼベース玉里・清水」、就労継続支援B型「うりぼラボ」をはじめ、食・農・ものづくり・見守りまで。鹿児島の企業と協業で事業開発を行う合同会社Uribo。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=Cormorant+Garamond:wght@500;600&family=Shippori+Mincho:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#3d2e23;
+  --ink-soft:#6b5a4c;
+  --paper:#fffdf9;
+  --uribo:#d96f2b;
+  --uribo-deep:#b3541e;
+  --moss:#3f6b4f;
+  --moss-pale:#eaf1ec;
+  --sand:#f6efe6;
+  --stripe:#e8d9c5;
+  --night:#232a3d;      /* 宇宙マス用 */
+  --radius:16px;
+  --maxw:1080px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Zen Kaku Gothic New',sans-serif;
+  color:var(--ink);background:var(--paper);
+  line-height:1.9;font-size:16px;
+}
+h1,h2,h3{font-family:'Zen Maru Gothic',sans-serif}
+a{color:var(--uribo-deep)}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+.uribo-stripes{height:14px;background:repeating-linear-gradient(90deg,var(--stripe) 0 46px,transparent 46px 92px)}
+
+/* header */
+header{position:sticky;top:0;z-index:50;background:rgba(255,253,249,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--stripe)}
+.header-in{display:flex;align-items:center;justify-content:space-between;padding:13px 0;gap:14px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:var(--ink)}
+.logo-slot{width:42px;height:42px;border-radius:50%;border:2px dashed var(--stripe);display:grid;place-items:center;font-size:9px;color:var(--ink-soft);flex-shrink:0}
+.logo-type{font-family:'Zen Maru Gothic';font-weight:900;font-size:20px}
+.logo-type small{display:block;font-size:9.5px;font-weight:500;color:var(--ink-soft);letter-spacing:.14em}
+nav{display:flex;gap:20px;font-size:14px;font-weight:500}
+nav a{text-decoration:none;color:var(--ink-soft)}
+nav a:hover,nav a:focus-visible{color:var(--uribo-deep)}
+.tel-btn{background:var(--uribo);color:#fff;border-radius:999px;padding:9px 18px;text-decoration:none;font-weight:700;font-size:14px;white-space:nowrap}
+.tel-btn:hover{background:var(--uribo-deep)}
+@media(max-width:820px){nav{display:none}}
+
+/* hero */
+.hero{padding:76px 0 40px}
+.hero-badge{display:inline-block;background:var(--moss-pale);color:var(--moss);border-radius:999px;padding:4px 16px;font-size:13px;font-weight:700;margin-bottom:20px}
+.hero h1{font-size:clamp(32px,5.6vw,58px);font-weight:900;line-height:1.5;letter-spacing:.02em}
+.hero-lede{margin-top:22px;color:var(--ink-soft);max-width:36em}
+.hero-verbs{margin-top:26px;display:flex;flex-wrap:wrap;gap:10px}
+.verb{background:#fff;border:1.5px solid var(--stripe);border-radius:999px;padding:6px 18px;font-family:'Zen Maru Gothic';font-weight:700;font-size:15px}
+.verb b{color:var(--uribo)}
+.hero-cta{margin-top:32px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-block;border-radius:999px;padding:14px 30px;font-weight:700;text-decoration:none;font-size:15px}
+.btn-fill{background:var(--uribo);color:#fff}
+.btn-fill:hover{background:var(--uribo-deep)}
+.btn-line{border:2px solid var(--moss);color:var(--moss)}
+.btn-line:hover{background:var(--moss-pale)}
+
+/* ticker */
+.ticker{overflow:hidden;border-top:1px solid var(--stripe);border-bottom:1px solid var(--stripe);padding:13px 0;background:#fff}
+.ticker-in{display:flex;gap:0;width:max-content}
+.ticker span{font-family:'Zen Maru Gothic';font-weight:700;font-size:15px;color:var(--ink-soft);white-space:nowrap;padding-right:14px}
+.ticker span::after{content:"・";color:var(--uribo);padding-left:14px}
+@media (prefers-reduced-motion:no-preference){
+  .ticker-in{animation:tick 40s linear infinite}
+  @keyframes tick{to{transform:translateX(-50%)}}
+}
+
+/* sections */
+section{padding:76px 0}
+.sec-head{margin-bottom:38px}
+.sec-head .kana{color:var(--uribo);font-weight:700;font-size:14px;letter-spacing:.08em}
+.sec-head h2{font-size:clamp(25px,3.4vw,34px);font-weight:900;margin-top:6px}
+.sec-lede{color:var(--ink-soft);max-width:40em;margin-top:14px}
+
+/* ベース */
+.bases{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:760px){.bases{grid-template-columns:1fr}}
+.base-card{background:#fff;border:1px solid var(--stripe);border-radius:var(--radius);overflow:hidden}
+.base-card .cap{background:var(--sand);padding:16px 22px;display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.base-card .cap h3{font-size:20px;font-weight:900}
+.base-card .cap span{font-size:13px;color:var(--moss);font-weight:700}
+.base-card .desc{padding:18px 22px 0;font-size:14.5px;color:var(--ink-soft)}
+.base-card dl{padding:16px 22px 22px;display:grid;grid-template-columns:6.5em 1fr;row-gap:9px;font-size:14.5px}
+.base-card dt{color:var(--ink-soft);font-weight:500}
+.base-card dd{font-weight:500}
+.base-card dd a{font-weight:700;text-decoration:none}
+.base-features{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:26px}
+@media(max-width:760px){.base-features{grid-template-columns:1fr}}
+.bfeat{background:#fff;border:1px solid var(--stripe);border-left:5px solid var(--uribo);border-radius:10px;padding:14px 18px}
+.bfeat b{font-family:'Zen Maru Gothic';font-size:16px;display:block;margin-bottom:4px}
+.bfeat span{font-size:13.5px;color:var(--ink-soft);line-height:1.75;display:block}
+
+/* Bento */
+.bento-sec{background:var(--sand)}
+.bento{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+.cell{
+  background:#fff;border:1px solid var(--stripe);border-radius:var(--radius);
+  padding:22px;display:flex;flex-direction:column;gap:8px;grid-column:span 2;
+}
+.cell .cat{font-size:12px;font-weight:700;color:var(--moss);letter-spacing:.06em}
+.cell h3{font-size:19px;font-weight:900;line-height:1.4}
+.cell p{font-size:13.5px;color:var(--ink-soft);line-height:1.75}
+.cell .note{margin-top:auto;padding-top:8px;font-size:12px;font-weight:700;color:var(--uribo)}
+.cell .big-line{
+  font-family:'Zen Maru Gothic';font-weight:900;
+  font-size:clamp(19px,2.6vw,24px);line-height:1.5;color:var(--uribo-deep);
+  background:var(--sand);border-radius:10px;padding:12px 16px;margin:4px 0 2px;
+}
+/* 静かなティザー */
+.teaser{padding:14px 2px 10px;border-top:1px solid var(--stripe);border-bottom:1px solid var(--stripe);margin:8px 0 4px;text-align:center}
+.teaser-main{
+  font-family:'Shippori Mincho',serif;font-weight:600;color:var(--ink);
+  font-size:clamp(24px,3.4vw,31px);letter-spacing:.1em;line-height:1.6;
+}
+.teaser-sub{margin-top:8px;font-size:13px;color:var(--ink-soft);letter-spacing:.05em}
+.cell-wide{grid-column:span 3}
+.cell-hero{grid-column:span 6;background:var(--night);border:none;color:#f2eee6;position:relative;overflow:hidden;padding:28px 26px}
+.cell-hero .cat{color:#e8b04b}
+.cell-hero h3{color:#fff;font-size:24px}
+.cell-hero p{color:#c9c4b8}
+.cell-hero .note{color:#e8b04b}
+.sp-stats{display:flex;gap:26px;flex-wrap:wrap;margin:8px 0 2px}
+.sp-stat b{display:block;font-family:'Zen Maru Gothic';font-weight:900;font-size:clamp(20px,2.6vw,26px);color:#e8b04b;line-height:1.3}
+.sp-stat span{font-size:11.5px;color:#c9c4b8;letter-spacing:.04em}
+.cell-hero .stars{position:absolute;inset:0;pointer-events:none}
+.cell-moss{background:var(--moss-pale)}
+.cell-sky{background:#ecf4fa}
+.cell-labo{grid-column:span 4}
+@media(max-width:860px){
+  .cell,.cell-wide,.cell-labo{grid-column:span 3}
+  .cell-hero{grid-column:span 6}
+}
+@media(max-width:600px){
+  .cell,.cell-wide,.cell-labo,.cell-hero{grid-column:span 6}
+}
+
+/* 協業 */
+.collab .band{
+  background:#fff;border:1px solid var(--stripe);border-radius:var(--radius);
+  padding:30px;display:grid;grid-template-columns:1.2fr .8fr;gap:30px;align-items:center;
+}
+@media(max-width:760px){.collab .band{grid-template-columns:1fr}}
+.collab .facts{display:grid;gap:12px}
+.fact{border-left:5px solid var(--uribo);padding:4px 0 4px 16px}
+.fact b{font-family:'Zen Maru Gothic';font-size:17px}
+.fact span{display:block;font-size:13px;color:var(--ink-soft)}
+
+/* HOUSE OF INOYA */
+.inoya{background:var(--sand)}
+.inoya-head{text-align:center;margin-bottom:44px}
+.inoya-wordmark{font-family:'Cormorant Garamond',serif;font-size:clamp(30px,4.4vw,44px);font-weight:600;letter-spacing:.16em}
+.inoya-rule{width:180px;height:1px;background:var(--ink);margin:14px auto 0;opacity:.5}
+.inoya-head p{margin-top:18px;color:var(--ink-soft);font-size:15px}
+.inoya-lede-jp{font-family:'Shippori Mincho',serif;font-size:17px;color:var(--ink);margin-top:20px;letter-spacing:.06em}
+.divisions{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+@media(max-width:820px){.divisions{grid-template-columns:1fr}}
+.division{background:#fff;border:1px solid var(--stripe);border-radius:var(--radius);padding:26px 24px;text-align:center}
+.division.current{border:2px solid var(--uribo)}
+.division .dv-en{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;letter-spacing:.14em}
+.division .dv-area{font-size:12.5px;color:var(--ink-soft);margin-top:2px}
+.division .dv-desc{font-size:14px;color:var(--ink-soft);margin-top:14px;text-align:left}
+.division .dv-brands{margin-top:14px;font-size:13px;font-weight:500;text-align:left}
+.division .tag{display:inline-block;background:var(--moss-pale);color:var(--moss);border-radius:999px;padding:2px 12px;font-size:12px;font-weight:700;margin-top:14px}
+
+/* contact */
+.contact{background:var(--ink);color:#fffdf9;text-align:center}
+.contact h2{font-size:clamp(24px,3.2vw,32px);font-weight:900}
+.contact p{margin-top:14px;color:#d8cbbf}
+.contact .tel{display:inline-block;margin-top:26px;font-family:'Zen Maru Gothic';font-size:clamp(30px,5vw,44px);font-weight:900;color:#fff;text-decoration:none;letter-spacing:.04em}
+.contact .tel small{display:block;font-size:14px;font-weight:500;color:#d8cbbf;letter-spacing:.1em}
+.contact .sub-tel{margin-top:20px;font-size:14px;color:#d8cbbf}
+.contact .sub-tel a{color:#fff;text-decoration:none;font-weight:700}
+
+footer{padding:36px 0 96px;font-size:13px;color:var(--ink-soft)}
+.foot-in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer .group{font-weight:700;letter-spacing:.1em}
+.foot-sites{margin-top:18px;padding-top:16px;border-top:1px solid var(--stripe)}
+.foot-sites .fs-title{font-weight:700;letter-spacing:.08em;font-size:12px;color:var(--ink-soft);margin-bottom:8px}
+.foot-sites ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px 18px}
+.foot-sites a{color:var(--ink-soft);text-decoration:none}
+.foot-sites a:hover{text-decoration:underline}
+.foot-news{margin-top:14px;font-size:12px;display:none}
+.foot-news a{color:var(--ink-soft)}
+@media(min-width:761px){footer{padding-bottom:36px}}
+
+/* mobile sticky CTA */
+.sticky-cta{
+  position:fixed;left:0;right:0;bottom:0;z-index:60;
+  display:none;gap:10px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  background:rgba(255,253,249,.96);border-top:1px solid var(--stripe);backdrop-filter:blur(6px);
+}
+.sticky-cta a{flex:1;text-align:center;border-radius:999px;padding:13px 0;font-weight:700;font-size:15px;text-decoration:none}
+.sticky-cta .call{background:var(--uribo);color:#fff}
+.sticky-cta .mail{border:2px solid var(--moss);color:var(--moss)}
+@media(max-width:760px){.sticky-cta{display:flex}}
+
+:focus-visible{outline:3px solid var(--uribo);outline-offset:2px}
+
+/* ロゴ配置 */
+.logo-img{height:48px;width:auto;display:block;margin-left:10px}
+.base-logo{height:70px;width:auto;margin-bottom:12px}
+.cell-logo{height:56px;width:auto;align-self:flex-start;margin-bottom:2px}
+.cell-hero .cell-logo{background:#fff;border-radius:10px;padding:5px 8px}
+.inoya-img{display:block;max-width:min(440px,86%);height:auto;margin:0 auto}
+.dv-logo{height:58px;width:auto;display:block;margin:0 auto 12px}
+
+/* 写真 */
+.cell-photo{width:100%;height:160px;object-fit:cover;border-radius:10px;margin:2px 0}
+.cell-photo.full{height:auto;object-fit:contain}
+.sp-banner{width:100%;height:auto;border-radius:10px;margin:4px 0}
+.collab-photo{width:100%;height:auto;border-radius:var(--radius);border:1px solid var(--stripe)}
+.gallery-sec{padding:56px 0 64px}
+.gallery{display:flex;gap:14px;overflow-x:auto;padding:6px 22px 14px;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
+.gallery img{height:210px;width:auto;border-radius:12px;flex:0 0 auto;scroll-snap-align:start}
+
+/* FAQ */
+.faq details{border-bottom:1px dashed var(--stripe);padding:6px 0}
+.faq summary{font-family:'Zen Maru Gothic';font-weight:700;font-size:16px;cursor:pointer;padding:12px 4px;list-style:none;display:flex;gap:10px;align-items:baseline}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::before{content:"Q";color:#fff;background:var(--uribo);border-radius:50%;width:26px;height:26px;display:inline-grid;place-items:center;font-size:14px;flex-shrink:0}
+.faq details[open] summary{color:var(--uribo-deep)}
+.faq .ans{padding:0 4px 16px 40px;font-size:14.5px;color:var(--ink-soft)}
+/* 代表メッセージ */
+.message{background:var(--sand);text-align:center}
+.message .msg-head{font-family:'Shippori Mincho',serif;font-weight:600;font-size:clamp(22px,3.4vw,30px);letter-spacing:.08em;line-height:1.8}
+.message .msg-body{max-width:36em;margin:24px auto 0;text-align:left;font-size:15px;color:var(--ink-soft)}
+.message .msg-sign{margin-top:20px;font-weight:700;font-family:'Zen Maru Gothic'}
+/* 会社概要 */
+.company{padding:56px 0}
+.company dl{display:grid;grid-template-columns:8em 1fr;row-gap:12px;font-size:14.5px;max-width:640px}
+.company dt{color:var(--ink-soft);font-weight:700}
+/* LINE */
+.btn-line-msg{background:#06C755;color:#fff}
+.btn-line-msg:hover{opacity:.9}
+.sticky-cta .line{background:#06C755;color:#fff}
+.hero-note{margin-top:12px;font-size:13px;color:var(--ink-soft)}
+.base-card-logo{height:80px;width:auto;display:block;margin:18px auto 0}
+.jewelry-name{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:.13em;font-size:21px}
+.jewelry-name small{display:block;font-family:'Zen Kaku Gothic New';font-size:12px;font-weight:500;color:var(--ink-soft);letter-spacing:.06em;margin-top:2px}
+
+/* ── craft & motion ── */
+html{interpolate-size:allow-keywords}
+h1,h2,h3{text-wrap:balance}
+::selection{background:var(--uribo);color:#fff}
+section[id]{scroll-margin-top:76px}
+header{background:rgba(255,253,249,.72);backdrop-filter:blur(14px) saturate(1.5);-webkit-backdrop-filter:blur(14px) saturate(1.5)}
+.ticker:hover .ticker-in{animation-play-state:paused}
+.faq details::details-content{block-size:0;overflow:hidden;transition:block-size .35s ease,content-visibility .35s allow-discrete}
+.faq details[open]::details-content{block-size:auto}
+@media(prefers-reduced-motion:no-preference){
+  .hero .hero-badge,.hero h1,.hero-lede,.hero-verbs,.hero-cta,.hero-note{opacity:0;transform:translateY(16px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  .hero h1{animation-delay:.08s}.hero-lede{animation-delay:.16s}.hero-verbs{animation-delay:.24s}.hero-cta{animation-delay:.32s}.hero-note{animation-delay:.4s}
+  @keyframes rise{to{opacity:1;transform:none}}
+}
+/* 数字で見るUribo */
+.metrics{padding:56px 0 60px}
+.metrics-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px}
+@media(max-width:960px){.metrics-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.metrics-grid{grid-template-columns:repeat(2,1fr)}}
+.metric{background:#fff;border:1px solid var(--stripe);border-radius:14px;padding:18px 10px;text-align:center}
+.metric b{display:block;font-family:'Zen Maru Gothic';font-weight:900;font-size:clamp(24px,3vw,32px);color:var(--uribo-deep);line-height:1.3}
+.metric span{font-size:12px;color:var(--ink-soft);letter-spacing:.03em}
+.base-cta{padding:4px 22px 22px;margin-top:auto}
+.base-cta .btn{display:block;text-align:center}
+.base-card{display:flex;flex-direction:column}
+</style>
+
+<link rel="canonical" href="https://urilabo.com/uribo/">
+<meta property="og:title" content="合同会社Uribo｜暮らす・はたらく・食べる・つくる（鹿児島）">
+<meta property="og:description" content="グループホーム「うりぼベース玉里・清水」、就労継続支援B型「うりぼラボ」をはじめ、食・農・ものづくり・見守りまで。鹿児島の企業と協業で事業開発を行う合同会社Uribo。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://urilabo.com/uribo/">
+<meta property="og:image" content="https://urilabo.com/uribo/images/ogp.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://urilabo.com/uribo/images/ogp.jpg">
+<meta property="og:locale" content="ja_JP">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#fffdf9">
+<link rel="icon" type="image/png" href="/images/favicon.png">
+<link rel="apple-touch-icon" href="/images/apple-touch-icon.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"Organization","name":"合同会社Uribo","url":"https://urilabo.com","telephone":"+81-70-8482-5454","email":"info@urilabo.com","address":{"@type":"PostalAddress","addressRegion":"鹿児島県","addressLocality":"霧島市"},"parentOrganization":{"@type":"Organization","name":"HOUSE OF INOYA","url":"https://inoya.tokyo"},"sameAs":["https://inoya.tokyo/","https://inoya.tokyo/history/","https://urilabo.com/","https://urilabo.com/base/","https://urilabo.com/smaho/","https://urilabo.com/ivy/","https://note.com/inovision","https://x.com/uri_labo"]},
+ {"@type":"LocalBusiness","name":"うりぼベース玉里","description":"グループホーム（地域包括型共同生活援助）","telephone":"+81-99-220-5599","address":{"@type":"PostalAddress","postalCode":"890-0011","addressRegion":"鹿児島県","addressLocality":"鹿児島市","streetAddress":"玉里団地1丁目85-7"}},
+ {"@type":"LocalBusiness","name":"うりぼベース清水","description":"グループホーム（地域包括型共同生活援助）","telephone":"+81-99-294-9174","address":{"@type":"PostalAddress","postalCode":"892-0802","addressRegion":"鹿児島県","addressLocality":"鹿児島市","streetAddress":"清水町16-5"}},
+ {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "見学や体験はできますか？（うりぼベース・うりぼラボ共通）", "acceptedAnswer": {"@type": "Answer", "text": "はい、どちらもいつでも歓迎です。お電話またはLINEで日程を調整します。ご本人・ご家族のほか、相談支援専門員・行政の方からのご連絡もお受けしています。"}}, {"@type": "Question", "name": "うりぼベース（グループホーム）は誰が利用できますか？", "acceptedAnswer": {"@type": "Answer", "text": "障がいのある方で、共同生活援助（グループホーム）の利用が認められた方が対象です。障がいの種類や等級については、まずはお気軽にご相談ください。手続きの流れからご案内します。"}}, {"@type": "Question", "name": "うりぼベースの費用はどのくらいかかりますか？", "acceptedAnswer": {"@type": "Answer", "text": "家賃は玉里が一律17,000円/月、清水が19,000〜23,000円/月（居室により異なります）。ほかに共益費・水光熱費・日用品費・食費の実費をご負担いただきます。詳しくは"}}, {"@type": "Question", "name": "うりぼラボ（就労支援）は、就労経験がなくても大丈夫ですか？", "acceptedAnswer": {"@type": "Answer", "text": "まったく問題ありません。障害福祉サービス受給者証をお持ちの方が対象で、フレックスタイム制と鹿児島駅からの送迎があり、体調に合わせて無理なく通えます。得意なことから一緒に始めましょう。"}}, {"@type": "Question", "name": "うりぼベースで暮らしながら、うりぼラボに通えますか？", "acceptedAnswer": {"@type": "Answer", "text": "はい。うりぼベースで暮らしながら、就労継続支援B型のうりぼラボへ通うことができます。「暮らす」と「はたらく」を同じグループでまとめてサポートします。"}}, {"@type": "Question", "name": "食べられるスプーンやアクセサリーは、どこで買えますか？", "acceptedAnswer": {"@type": "Answer", "text": "マルシェやイベント出店を中心に販売しています。IVYのアクセサリーは、オーナー・ディレクターとの対話を通じてお求めいただくスタイルです。出店情報は各公式サイト・SNSでお知らせしています。"}}, {"@type": "Question", "name": "企業として協業・協賛の相談はできますか？", "acceptedAnswer": {"@type": "Answer", "text": "はい、歓迎します。食べられるスプーンプロジェクトへの協賛、鹿児島福箱（手仕事ボックス）の発注・協賛、その他の協業まで、お電話（070-8482-5454）またはメール（info@urilabo.com）でお気軽にご相談ください。"}}]}
+]}
+</script>
+</head>
+<body>
+
+<header>
+  <div class="wrap header-in">
+    <a class="brand" href="#top">
+      <img class="logo-img" src="images/uribo-02.webp" alt="うりぼ（合同会社Uribo）">
+    </a>
+    <nav aria-label="ページ内">
+      <a href="#base">グループホーム</a>
+      <a href="#works">事業いちらん</a>
+      <a href="#collab">協業</a>
+      <a href="#group">グループ</a>
+      <a href="#faq">よくある質問</a>
+    </nav>
+    <a class="tel-btn" href="tel:07084825454">☎ 070-8482-5454</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="wrap">
+      <span class="hero-badge">鹿児島から、福祉と事業のあたらしい形を</span>
+      <h1>ひとりじゃない。<br>輪になって、支えている。</h1>
+      <p class="hero-lede">
+        合同会社Uriboは、グループホームと就労継続支援B型を軸に、
+        食・農・ものづくり・見守りまで、暮らしのまわりを
+        まるごと支える会社です。鹿児島の企業と協業しながら、
+        あたらしい事業を育てています。
+      </p>
+      <div class="hero-verbs">
+        <span class="verb"><b>暮らす</b>　うりぼベース</span>
+        <span class="verb"><b>はたらく</b>　うりぼラボ</span>
+        <span class="verb"><b>食べる</b>　Uribo fresh・祁答院農園</span>
+        <span class="verb"><b>つくる</b>　IVY・Uribo collection</span>
+        <span class="verb"><b>守る</b>　スマホ見守り</span>
+      </div>
+      <div class="hero-cta">
+        <a class="btn btn-fill" href="#contact">お問い合わせ</a>
+        <a class="btn btn-line" href="#works">事業いちらんを見る</a>
+      </div>
+      <p class="hero-note">見学・ご相談は無料です。ご本人・ご家族・相談支援専門員の方、どなたでもどうぞ。</p>
+    </div>
+  </div>
+
+  <!-- ticker -->
+  <div class="ticker" aria-hidden="true">
+    <div class="ticker-in">
+      <span>うりぼベース玉里</span><span>うりぼベース清水</span><span>うりぼラボ</span><span>Uribo fresh</span><span>祁答院農園</span><span>INOVISION JEWELRY</span><span>URIBO COLLECTION</span><span>うりぼスマホ見守りサービス</span><span>宇宙で食べられるスプーン</span><span>Uriboマルシェ</span><span>ナウル政府観光協力店</span>
+      <span>うりぼベース玉里</span><span>うりぼベース清水</span><span>うりぼラボ</span><span>Uribo fresh</span><span>祁答院農園</span><span>INOVISION JEWELRY</span><span>URIBO COLLECTION</span><span>うりぼスマホ見守りサービス</span><span>宇宙で食べられるスプーン</span><span>Uriboマルシェ</span><span>ナウル政府観光協力店</span>
+    </div>
+  </div>
+
+
+  <!-- ベース -->
+  <section id="base">
+    <div class="wrap">
+      <div class="sec-head">
+        <img loading="lazy" decoding="async" class="base-logo" src="images/uribo-03.webp" alt="うりぼベース グループホーム">
+        <span class="kana">グループホーム（共同生活援助）</span>
+        <h2>うりぼベース玉里・うりぼベース清水</h2>
+        <p class="sec-lede">
+          暮らしの土台になる、ふたつの住まい。少人数だからこそ、
+          一人ひとりのペースに寄り添えます。世話人・生活支援員が毎日をサポートし、
+          買い物や外出がしやすい、暮らしやすい街なかにあります。
+        </p>
+        <p style="margin-top:22px"><a class="btn btn-fill" style="font-size:17px;padding:16px 36px" href="https://urilabo.com/base">▶ うりぼベース公式サイトを見る</a></p>
+      </div>
+      <div class="base-features">
+        <div class="bfeat"><b>スマホ見守り付き</b><span>大切な人の「いつもと違う」を、そっと教えてくれる。障がいのある方に特化した「スマホ見守りサービス」が、うりぼベースご入居の方には標準でついています。</span></div>
+        <div class="bfeat"><b>Wi-Fi完備</b><span>玉里・清水ともWi-Fi完備。スマホやタブレットを、見守りのある環境で安心して使えます。</span></div>
+        <div class="bfeat"><b>祁答院農園の食事</b><span>食事には、グループの祁答院農園でつくられた無農薬のお米や野菜をふんだんに使用しています。</span></div>
+      </div>
+      <div class="bases">
+        <article class="base-card">
+          <div class="cap"><h3>うりぼベース玉里</h3><span>定員4名</span></div>
+          <img loading="lazy" decoding="async" class="base-card-logo" src="images/uribo-04.webp" alt="グループホーム うりぼベース玉里">
+          <p class="desc">玉里団地の落ち着いた住宅街にあるホーム。買い物や通院に便利な環境で、毎日の暮らしを無理なく続けられます。うりぼラボへの通所もスムーズです。</p>
+          <dl>
+            <dt>所在地</dt><dd>〒890-0011 鹿児島市玉里団地1丁目85-7</dd>
+            <dt>電話</dt><dd><a href="tel:0992205599">099-220-5599</a></dd>
+            <dt>種別</dt><dd>地域包括型共同生活援助</dd>
+            <dt>アクセス</dt><dd>バス停から近く、スーパー「タイヨー」も徒歩圏内</dd>
+          </dl>
+          <div class="base-cta"><a class="btn btn-fill" href="https://urilabo.com/base">うりぼベース玉里の詳細はこちら ▶</a></div>
+        </article>
+        <article class="base-card">
+          <div class="cap"><h3>うりぼベース清水</h3><span>定員4名</span></div>
+          <img loading="lazy" decoding="async" class="base-card-logo" src="images/uribo-05.webp" alt="グループホーム うりぼベース清水">
+          <p class="desc">清水町の暮らしやすい立地にあるホーム。同じ町内のうりぼラボと近く、「暮らす」と「はたらく」がひとつながりになる拠点です。</p>
+          <dl>
+            <dt>所在地</dt><dd>〒892-0802 鹿児島市清水町16-5</dd>
+            <dt>電話</dt><dd><a href="tel:0992949174">099-294-9174</a></dd>
+            <dt>種別</dt><dd>地域包括型共同生活援助</dd>
+            <dt>アクセス</dt><dd>バス停から近く、買い物にも便利な立地</dd>
+          </dl>
+          <div class="base-cta"><a class="btn btn-fill" href="https://urilabo.com/base">うりぼベース清水の詳細はこちら ▶</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <div class="uribo-stripes" role="presentation"></div>
+
+  <!-- Bento 事業いちらん -->
+  <section id="works" class="bento-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kana">うりぼの事業いちらん</span>
+        <h2>暮らしのまわり、ぜんぶやる。</h2>
+        <p class="sec-lede">福祉から食、ものづくり、見守りまで。ひとつひとつの事業が輪になって、利用者さんと地域を支えています。</p>
+      </div>
+      <div class="bento">
+
+        <article class="cell cell-labo cell-sky">
+          <img loading="lazy" decoding="async" class="cell-logo" src="images/uribo-06.webp" alt="うりぼラボ">
+          <span class="cat">事業創出型 就労継続支援B型作業所</span>
+          <h3>うりぼラボ</h3>
+          <img loading="lazy" decoding="async" class="cell-photo" src="images/uribo-07.webp" alt="うりぼラボの出店ブース（ナウルグッズも並びます）">
+          <p>“作業所っぽくない作業所”。仕事を受けるのではなく、自分たちの手で仕事を生み出す——スマホ見守り、フリマ出品代行、SNSサポート、清掃・調理補助、食べられるスプーンの製造まで、グループが実際に運営する事業に関わりながら、“できる”を見つけて自分のペースで働けます。フレックスタイム制・鹿児島駅からの送迎あり。公式サイト：<a href="https://urilabo.com">urilabo.com</a></p>
+          <span class="note">ナウル共和国政府観光局の「ナウル政府観光協力店」でもあります</span>
+        </article>
+
+        <article class="cell">
+          <img loading="lazy" decoding="async" class="cell-logo" src="images/uribo-08.webp" alt="Uribo fresh">
+          <span class="cat">食のブランド｜鹿児島市平之町</span>
+          <h3>Uribo fresh</h3>
+          <img loading="lazy" decoding="async" class="cell-photo" src="images/uribo-09.webp" alt="採れたての野菜とうり坊">
+          <p>毎日の食卓を支える、うりぼの食ブランド。祁答院農園の恵みを、からだにやさしいかたちで暮らしのそばに届けます。</p>
+        </article>
+
+        <article class="cell-hero cell">
+          <svg class="stars" viewBox="0 0 600 160" preserveAspectRatio="none" aria-hidden="true">
+            <circle cx="60" cy="30" r="1.6" fill="#fff" opacity=".8"/><circle cx="150" cy="90" r="1.2" fill="#fff" opacity=".6"/>
+            <circle cx="260" cy="24" r="1.4" fill="#fff" opacity=".7"/><circle cx="360" cy="120" r="1.2" fill="#fff" opacity=".5"/>
+            <circle cx="450" cy="40" r="1.8" fill="#e8b04b" opacity=".9"/><circle cx="530" cy="100" r="1.3" fill="#fff" opacity=".7"/>
+            <circle cx="580" cy="20" r="1.1" fill="#fff" opacity=".6"/><circle cx="210" cy="140" r="1.5" fill="#fff" opacity=".6"/>
+          </svg>
+          <img loading="lazy" decoding="async" class="cell-logo" src="images/uribo-10.webp" alt="食べられるスプーン">
+          <span class="cat">商品開発・防災備蓄</span>
+          <h3>宇宙で食べられるスプーンプロジェクト</h3>
+          <img loading="lazy" decoding="async" class="sp-banner" src="images/uribo-11.webp" alt="食べられるスプーンが、宇宙を目指す — ナウル共和国観光局準公式グッズとして展開中">
+          <p>デザートをすくって、最後はスプーンごと食べられる——うりぼラボ生まれの「すごくかたいよ 食べられるスプーン」。小麦粉と水飴などでつくる、ゴミの出ないカトラリーです。試食用スティックの評判から生まれ、うりぼラボの利用者とともに試作を重ねてきました。</p>
+          <p>このスプーンで、宇宙という誤魔化しのきかない基準に挑むのが本プロジェクト。株式会社薩摩翁との協業で開発・展開を進め、ナウル共和国のライセンスも取得しています。試作品は常温751日保存の品質検査をクリアし、環境配慮の新素材・防災備蓄として広がっています。</p>
+          <div class="sp-stats">
+            <div class="sp-stat"><b data-count="8700" data-suffix="本">8,700本</b><span>累計試験配布数</span></div>
+            <div class="sp-stat"><b data-count="2200" data-suffix="本">2,200本</b><span>防災備蓄として機能</span></div>
+            <div class="sp-stat"><b data-count="4500" data-suffix="本">4,500本</b><span>防災イベント・訓練で活用</span></div>
+          </div>
+          <span class="note">日経・TBS・テレビ東京など28以上のメディアに掲載　▸ <a href="https://ediblespoon.urilabo.com" style="color:#e8b04b">特設サイト</a>　▸ <a href="https://prtimes.jp/main/html/rd/p/000000002.000179745.html" style="color:#e8b04b">プレスリリース（8,700本突破）</a></span>
+        </article>
+
+        <article class="cell">
+          <img loading="lazy" decoding="async" class="cell-logo" src="images/uribo-12.webp" alt="祁答院農園 KEDOIN FARM">
+          <span class="cat">農福連携｜薩摩川内市祁答院町黒木</span>
+          <h3>祁答院農園</h3>
+          <img loading="lazy" decoding="async" class="cell-photo" style="height:210px;object-position:50% 18%" src="images/uribo-13.webp" alt="祁答院の田んぼを守り続けるおじいちゃん">
+          <p>Uriboの農福連携は、会社設立（令和7年2月6日）の1年半前——市内の障がい者グループホームに規格外の野菜を無償でお届けすることから始まりました。いまは、長岡式酵素玄米「猪ノ屋玄米」のためだけに専用米を育てています。舞台は、川内川水系の源流域・祁答院黒木。山あいの一番水を贅沢に田へ引き込み、農薬を一度も使ったことのない土地で。農業と福祉がともに働く米づくりです。</p>
+        </article>
+
+        <article class="cell">
+          <img loading="lazy" decoding="async" class="cell-logo" src="images/uribo-14.webp" alt="IVY by INOVISION JEWELRY">
+          <span class="cat">クリエイティブスタジオ｜東京都渋谷区広尾3丁目</span>
+          <h3 class="jewelry-name">INOVISION JEWELRY<small>ライン「IVY（アイビー）」</small></h3>
+          <img loading="lazy" decoding="async" class="cell-photo full" src="images/uribo-15.webp" alt="IVY Déjà-vu Blue / 001">
+          <p>猪ノ屋広尾に構える、グループのジュエリーメゾン。うりぼラボと協働するライン「IVY」は、オーナーとディレクターがお客様と直接対話しながらお届けするスタイルでのみ、ご購入いただけます。最高級のクリスタルエレメントをふんだんにあしらいながら、想定するのはあくまで日常使い。ピアスやイヤリングは、マルシェなど太陽の光の下——石がいちばん美しく輝く場所でお選びいただけます。いちばん正直な光の下で、お確かめください。食べられるスプーンを応援する新ライン「STELLAR」も始動準備中（<a href="https://prtimes.jp/main/html/rd/p/000000002.000179745.html">プレスリリース</a>）。</p>
+        </article>
+
+        <article class="cell">
+          <span class="cat">マルシェ</span>
+          <h3>Uriboマルシェ</h3>
+          <img loading="lazy" decoding="async" class="cell-photo" src="images/uribo-16.webp" alt="マルシェ出店の様子">
+          <p>うりぼのなかまたちの商品が集まるマルシェ。地域の方と作り手が出会う場をつくります。</p>
+        </article>
+
+        <article class="cell cell-labo">
+          <img loading="lazy" decoding="async" class="cell-logo" src="images/uribo-17.webp" alt="URIBO COLLECTION">
+          <span class="cat">委託販売・物販支援</span>
+          <h3>Uribo collection（うりコレ）</h3>
+          <img loading="lazy" decoding="async" class="cell-photo" src="images/uribo-18.webp" alt="鹿児島福箱（鹿児島市ナイスハート協議会）">
+          <p>B型作業所の工賃は、制度上、生産活動の売上から生まれます。だからこそ、つくる力と同じくらい“届ける力”が大切——うりコレは、各地の作業所の商品を預かって販売し、売上の9割を作り手の事業所へお戻しする、応援型の仕組みです。</p>
+          <p>さらに、鹿児島市ナイスハート運営協議会の「物販部門強化部隊」として、作業所の手仕事を企業のCSR・ノベルティ・贈答品へ届けるプロジェクト「鹿児島福箱（手仕事ボックス）」の事務局も担当。発注を受けてからつくる仕組みのため、事業所は在庫リスクを抱えずに収入を伸ばせます。</p>
+          <span class="note">鹿児島福箱——つくる人にも、受け取る人にも、福を。</span>
+        </article>
+
+        <article class="cell">
+          <span class="cat">発信</span>
+          <h3>SNS運用</h3>
+          <img loading="lazy" decoding="async" class="cell-photo" src="images/uribo-19.webp" alt="ロゴに囲まれた配信ブース">
+          <p>各ブランドのSNSを企画・運用。うりぼのなかまたちの魅力を、鹿児島から全国へ発信します。</p>
+        </article>
+
+        <article class="cell cell-wide" style="grid-column:span 6">
+          <img loading="lazy" decoding="async" class="cell-logo" style="height:64px" src="images/uribo-20.webp" alt="グループホームの利用者様向け スマホ見守りサービス">
+          <span class="cat">見守り（開発中）</span>
+          <h3>うりぼスマホ見守りサービス</h3>
+          <div class="teaser">
+            <p class="teaser-main">次は、全国へ。</p>
+            <p class="teaser-sub">いま、ここは Phase 1。まず特許を出願し、そのうえで東京・福岡——わずか2都市のテストで、実証サンプル500件を積み上げました。<br>Phase 2 は全国。Phase 3 は、見守りを超えた「一生涯の記録」基盤へ。</p>
+          </div>
+          <p>グループホームで実際に起きたスマホトラブルが、このサービスの原点です。障がいのある方のスマートフォンを、行動を制限せずにそっと見守り、詐欺や高額課金などトラブルの兆しを支援者へ知らせます。さらに、認知行動療法の知見を取り入れ、ゲームやSNSへの“のめり込み”をやわらげるアプローチも組み込んでいます。</p>
+          <p>開発は、現場の声だけに頼っていません。成年後見の専門職団体、地元金融機関、携帯ショップを展開する地元有力企業との意見交換を重ね、権利・お金・スマホの現場、それぞれの視点から“守るべきもの”を確かめながら設計しています。小さく始まったものが、どこまで育つか——その続きを、猪ノ屋広尾で静かに仕込んでいます。<a href="https://urilabo.com/smaho/">公式サイト</a></p>
+          <span class="note">特許出願中（令和7年6月出願）／サンプル500件蓄積／新規受付は終了しています</span>
+        </article>
+
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 協業 -->
+  <section id="collab" class="collab">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kana">鹿児島の企業とともに</span>
+        <h2>協業で、事業をひらく。</h2>
+        <p class="sec-lede">
+          Uriboの事業開発は、鹿児島の企業との協業が原動力です。
+          福祉の現場発のアイデアを、地域のパートナーと一緒に形にしています。
+          協業・協賛のご相談を随時受け付けています。
+        </p>
+      </div>
+      <div class="band">
+        <div>
+          <img loading="lazy" decoding="async" class="collab-photo" src="images/uribo-21.webp" alt="珈琲店での食べられるスプーン提供" style="margin-bottom:16px">
+          <p style="font-size:15px;color:var(--ink-soft)">
+            食べられるスプーンプロジェクトでは、戦略パートナーの株式会社薩摩翁とタッグを組み、
+            キッチンカーでのサンプル配布や協賛開拓、珈琲店・カフェでの体験イベント開催など、
+            鹿児島の企業との協業で商品を育ててきました。初の協賛企業を迎えた体験イベントの様子は<a href="https://prtimes.jp/main/html/rd/p/000000001.000179745.html">PR TIMESのレポート</a>でご覧いただけます。「うちと何かできそう」と思ったら、まずはお気軽にご連絡ください。事業提携・出資に関するご相談も受け付けています。
+          </p>
+        </div>
+        <div class="facts">
+          <div class="fact"><b data-count="28" data-suffix="媒体以上">28媒体以上</b><span>プロジェクトのメディア掲載実績</span></div>
+          <div class="fact"><b data-count="751" data-prefix="常温" data-suffix="日">常温751日</b><span>食べられるスプーン試作品の保存品質検査クリア</span></div>
+          <div class="fact"><b>ナウル共和国</b><span>ライセンス取得・政府観光局との連携</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ギャラリー -->
+  <section class="gallery-sec" aria-label="うりぼの風景">
+    <div class="wrap sec-head" style="margin-bottom:10px">
+      <span class="kana">フォトギャラリー</span>
+      <h2>うりぼの風景</h2>
+    </div>
+    <div class="gallery">
+      <img loading="lazy" decoding="async" src="images/uribo-22.webp" alt="猪ノ屋の木の看板とスタッフ">
+      <img loading="lazy" decoding="async" src="images/uribo-23.webp" alt="祁答院農園でのバーベキュー">
+      <img loading="lazy" decoding="async" src="images/uribo-24.webp" alt="食べられるスプーンの袋詰め作業">
+      <img loading="lazy" decoding="async" src="images/uribo-25.webp" alt="うりぼラボの展示ブース">
+      <img loading="lazy" decoding="async" src="images/uribo-26.webp" alt="食べられるスプーンのパッケージ">
+      <img loading="lazy" decoding="async" src="images/uribo-27.webp" alt="IVYのピアスとパッケージ">
+      <img loading="lazy" decoding="async" src="images/uribo-28.webp" alt="四代目猪ノ屋玄米の木箱">
+      <img loading="lazy" decoding="async" src="images/uribo-29.webp" alt="URIBO COLLECTIONの封蝋">
+      <img loading="lazy" decoding="async" src="images/uribo-30.webp" alt="ナウル屋 鹿児島出張所の売り場">
+      <img loading="lazy" decoding="async" src="images/uribo-31.webp" alt="地域の集まりでの発表">
+      <img loading="lazy" decoding="async" src="images/uribo-32.webp" alt="うりコレのアクセサリー制作">
+      <img loading="lazy" decoding="async" src="images/uribo-33.webp" alt="水引の正月飾り（うりコレ作品）">
+      <img loading="lazy" decoding="async" src="images/uribo-34.webp" alt="ブロックでつくった動物たち">
+      <img loading="lazy" decoding="async" src="images/uribo-35.webp" alt="祁答院の黄金の稲穂">
+    </div>
+  </section>
+
+  <!-- 代表メッセージ -->
+  <section class="message">
+    <div class="wrap">
+      <p class="msg-head">つまずきも、まわり道も、<br>だれかの役に立つ。</p>
+      <div class="msg-body">
+        <p>私自身、かつて心身のバランスを崩し、社会との接点を失った時期があります。もう一度立ち上がるきっかけをくれたのは、障がいのある方々との出会いでした。だからうりぼは、誰もが立ち止まったり、引き返したりできる場所でありたい。暮らしも、しごとも、食べることも——輪になって、一人ひとりを支えていきます。</p>
+        <p class="msg-sign">合同会社Uribo 代表社員　藤原 寛</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 数字で見るUribo -->
+  <section class="metrics" aria-label="数字で見るUribo">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:24px">
+        <span class="kana">数字で見るUribo</span>
+        <h2 id="since-head">設立からの、現在地。</h2>
+      </div>
+      <div class="metrics-grid">
+        <div class="metric"><b id="since-months" data-count="20" data-suffix="か月">20か月</b><span>設立からの歩み（令和7年2月〜）</span></div>
+        <div class="metric"><b data-count="11" data-suffix="">11</b><span>事業ライン</span></div>
+        <div class="metric"><b data-count="1" data-suffix="件">1件</b><span>特許出願（見守り技術）</span></div>
+        <div class="metric"><b data-count="500" data-suffix="件">500件</b><span>実証サンプル蓄積</span></div>
+        <div class="metric"><b data-count="8700" data-suffix="本+">8,700本+</b><span>食べられるスプーン累計試験配布</span></div>
+        <div class="metric"><b data-count="28" data-suffix="媒体+">28媒体+</b><span>メディア掲載</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOUSE OF INOYA -->
+  <section id="group" class="inoya">
+    <div class="wrap">
+      <div class="inoya-head">
+        <img loading="lazy" decoding="async" class="inoya-img" src="images/uribo-36.webp" alt="HOUSE OF INOYA TOKYO HIROO">
+        <p>Uriboは、HOUSE OF INOYAの障害福祉事業部です。</p>
+        <p class="inoya-lede-jp">食べる、はたらく、暮らす、つくる。<br>グループの力を合わせて、一人ひとりの毎日を支えます。</p>
+      </div>
+      <div class="divisions">
+        <article class="division">
+          <img loading="lazy" decoding="async" class="dv-logo" src="images/uribo-37.webp" alt="猪ノ屋"><div class="dv-en">INOYA</div>
+          <div class="dv-area">猪ノ屋部門｜鹿児島県薩摩川内市</div>
+          <p class="dv-desc">酵素玄米をはじめとする発酵食と農を担う、食のものづくり部門です。</p>
+          <p class="dv-brands">祁答院農園／<a href="https://urilabo.com/inoyagenmai">猪ノ屋玄米</a>／食べられるスプーン／Uribo fresh</p>
+        </article>
+        <article class="division current">
+          <img loading="lazy" decoding="async" class="dv-logo" src="images/uribo-38.webp" alt="Uribo"><div class="dv-en">URIBO</div>
+          <div class="dv-area">障害福祉事業部｜鹿児島市（玉里団地・清水町）</div>
+          <p class="dv-desc">グループホームと就労継続支援B型で、暮らしとはたらくを支える部門です。</p>
+          <p class="dv-brands">うりぼベース玉里・うりぼベース清水／うりぼラボ</p>
+          <span class="tag">このページの運営部門</span>
+        </article>
+        <article class="division">
+          <img loading="lazy" decoding="async" class="dv-logo" src="images/uribo-39.webp" alt="猪ノ屋広尾"><div class="dv-en">INOVISION</div>
+          <div class="dv-area">クリエイティブ・パテント部門｜東京都渋谷区広尾</div>
+          <p class="dv-desc">デザインとブランドづくり、そして特許・知財の管理でグループを支える部門です。</p>
+          <p class="dv-brands">猪ノ屋広尾／INOVISION JEWELRY by IVY／うりぼスマホ見守りサービス／URIBO COLLECTION</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kana">よくある質問</span>
+        <h2>ご不安に、先にお答えします。</h2>
+      </div>
+      <details>
+        <summary>見学や体験はできますか？（うりぼベース・うりぼラボ共通）</summary>
+        <p class="ans">はい、どちらもいつでも歓迎です。お電話またはLINEで日程を調整します。ご本人・ご家族のほか、相談支援専門員・行政の方からのご連絡もお受けしています。</p>
+      </details>
+      <details>
+        <summary>うりぼベース（グループホーム）は誰が利用できますか？</summary>
+        <p class="ans">障がいのある方で、共同生活援助（グループホーム）の利用が認められた方が対象です。障がいの種類や等級については、まずはお気軽にご相談ください。手続きの流れからご案内します。</p>
+      </details>
+      <details>
+        <summary>うりぼベースの費用はどのくらいかかりますか？</summary>
+        <p class="ans">家賃は玉里が一律17,000円/月、清水が19,000〜23,000円/月（居室により異なります）。ほかに共益費・水光熱費・日用品費・食費の実費をご負担いただきます。詳しくは<a href="https://urilabo.com/base/#fee">うりぼベース公式サイトの料金表</a>をご覧ください。</p>
+      </details>
+      <details>
+        <summary>うりぼラボ（就労支援）は、就労経験がなくても大丈夫ですか？</summary>
+        <p class="ans">まったく問題ありません。障害福祉サービス受給者証をお持ちの方が対象で、フレックスタイム制と鹿児島駅からの送迎があり、体調に合わせて無理なく通えます。得意なことから一緒に始めましょう。</p>
+      </details>
+      <details>
+        <summary>うりぼベースで暮らしながら、うりぼラボに通えますか？</summary>
+        <p class="ans">はい。うりぼベースで暮らしながら、就労継続支援B型のうりぼラボへ通うことができます。「暮らす」と「はたらく」を同じグループでまとめてサポートします。</p>
+      </details>
+      <details>
+        <summary>食べられるスプーンやアクセサリーは、どこで買えますか？</summary>
+        <p class="ans">マルシェやイベント出店を中心に販売しています。IVYのアクセサリーは、オーナー・ディレクターとの対話を通じてお求めいただくスタイルです。出店情報は各公式サイト・SNSでお知らせしています。</p>
+      </details>
+      <details>
+        <summary>企業として協業・協賛の相談はできますか？</summary>
+        <p class="ans">はい、歓迎します。食べられるスプーンプロジェクトへの協賛、鹿児島福箱（手仕事ボックス）の発注・協賛、その他の協業まで、お電話（070-8482-5454）またはメール（info@urilabo.com）でお気軽にご相談ください。</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <h2>見学も、協業のご相談も。</h2>
+      <p>ご本人・ご家族・相談支援専門員の方、企業・団体の方、どなたでもお気軽にどうぞ。</p>
+      <a class="tel" href="tel:07084825454"><small>合同会社Uribo お問い合わせ</small>070-8482-5454</a>
+      <p class="sub-tel">
+        うりぼベース玉里 <a href="tel:0992205599">099-220-5599</a>　／　
+        うりぼベース清水 <a href="tel:0992949174">099-294-9174</a>　／　
+        メール <a href="mailto:info@urilabo.com">info@urilabo.com</a>
+      </p>
+      <p style="margin-top:26px"><a class="btn btn-line-msg" href="https://lin.ee/E0rsAOD">LINEで気軽に相談する</a></p>
+    </div>
+  </section>
+
+  <!-- 会社概要 -->
+  <section class="company">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:24px">
+        <span class="kana">会社概要</span>
+        <h2>合同会社Uribo</h2>
+      </div>
+      <dl>
+        <dt>会社名</dt><dd>合同会社Uribo</dd>
+        <dt>代表</dt><dd>代表社員　藤原 寛</dd>
+        <dt>設立</dt><dd>令和7年2月6日</dd>
+        <dt>所在地</dt><dd>〒899-4325 鹿児島県霧島市国分松木町18-27 ルミナーレスカイ206号室</dd>
+        <dt>事業内容</dt><dd>障がい者福祉支援事業／スマホ見守り事業／防災備蓄事業／商品開発事業</dd>
+        <dt>お問い合わせ</dt><dd><a href="tel:07084825454">070-8482-5454</a>／<a href="mailto:info@urilabo.com">info@urilabo.com</a></dd>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>
+      <div class="group">HOUSE OF INOYA — URIBO</div>
+      合同会社Uribo（代表社員 藤原寛）｜鹿児島県霧島市国分松木町
+    </div>
+    <div>うりぼベース玉里・うりぼベース清水（グループホーム）／うりぼラボ（就労継続支援B型）</div>
+  </div>
+  <div class="wrap foot-sites">
+    <div class="fs-title">HOUSE OF INOYA グループサイト</div>
+    <ul>
+      <li><a href="https://urilabo.com/">うりぼラボ（就労継続支援B型）</a></li>
+      <li><a href="https://urilabo.com/base/">うりぼベース玉里・清水（グループホーム）</a></li>
+      <li><a href="https://urilabo.com/ivy/">IVY（アクセサリーブランド）</a></li>
+      <li><a href="https://urilabo.com/smaho/">スマホ見守りサービス あのね</a></li>
+      <li><a href="https://inoya.tokyo/">HOUSE OF INOYA（グループ全体）</a></li>
+      <li><a href="https://inoya.tokyo/history/">社歴・プレスリリース</a></li>
+      <li><a href="https://note.com/inovision" rel="noopener">INOVISION note</a></li>
+      <li><a href="https://x.com/uri_labo" rel="noopener">公式X（@uri_labo）</a></li>
+    </ul>
+    <div class="foot-news" id="foot-news"><span class="fs-title" style="display:inline">最新の動き：</span> <span id="foot-news-items"></span></div>
+  </div>
+</footer>
+<script>
+(function(){
+  try{
+    fetch('https://inoya.tokyo/history/feed.xml').then(function(r){
+      if(!r.ok) throw 0; return r.text();
+    }).then(function(t){
+      var xml=new DOMParser().parseFromString(t,'application/xml');
+      var items=[].slice.call(xml.querySelectorAll('item')).slice(0,2);
+      if(!items.length) return;
+      var html=items.map(function(it){
+        var ti=(it.querySelector('title')||{}).textContent||'';
+        var li=(it.querySelector('link')||{}).textContent||'https://inoya.tokyo/history/';
+        return '<a href="'+li+'">'+ti.replace(/</g,'&lt;')+'</a>';
+      }).join('　／　');
+      var box=document.getElementById('foot-news-items');
+      if(box){box.innerHTML=html;document.getElementById('foot-news').style.display='block';}
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+
+<!-- スマホ用固定CTA -->
+<div class="sticky-cta">
+  <a class="call" href="tel:07084825454">☎ 電話する</a>
+  <a class="line" href="https://lin.ee/E0rsAOD">LINEで相談</a>
+</div>
+
+<script>
+(function(){
+  var f=new Date(2025,1,6), n=new Date();
+  var m=(n.getFullYear()-f.getFullYear())*12+(n.getMonth()-f.getMonth());
+  if(n.getDate()<f.getDate()) m--;
+  if(m<1) return;
+  var el=document.getElementById('since-months');
+  var label = m>=24 ? (Math.floor(m/12)+'年'+(m%12? m%12+'か月':'')) : (m+'か月');
+  if(el){ el.dataset.count=m; el.dataset.suffix='か月'; el.textContent=m+'か月'; }
+  var h=document.getElementById('since-head');
+  if(h){ h.textContent='設立'+label+'の、現在地。'; }
+})();
+</script>
+<script>
+(function(){
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var els=document.querySelectorAll('[data-count]');
+  if(!('IntersectionObserver' in window)||!els.length) return;
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      io.unobserve(e.target);
+      var el=e.target, to=+el.dataset.count, pre=el.dataset.prefix||'', suf=el.dataset.suffix||'';
+      var t0=performance.now(), dur=1100;
+      function tick(t){
+        var p=Math.min(1,(t-t0)/dur), ease=1-Math.pow(1-p,3);
+        el.textContent=pre+Math.round(to*ease).toLocaleString('ja-JP')+suf;
+        if(p<1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    });
+  },{threshold:.6});
+  els.forEach(function(el){io.observe(el)});
+})();
+</script>
+</body>
+</html>
