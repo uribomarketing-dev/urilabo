@@ -2,7 +2,8 @@ name: deploy-conoha
 
 # main に変更が入ったら（自動更新ボットの変更も含む）ConoHa WING の urilabo.com へ
 # SSH（ポート8022）経由の rsync で、変わったファイルだけアップロードする。
-# 削除はしない（--delete なし）。リポジトリに無いファイル（.htaccess、base/、smaho/ など）は触らない。
+# 削除はしない（--delete なし）。リポジトリに無いファイル（.htaccess など）は触らない。
+# アップロード後は scripts/indexnow.py で IndexNow（Bing 等）へ更新URLを自動通知する。
 #
 # 必要な Secrets：
 #   SSH_HOST         … www1189.conoha.ne.jp
@@ -77,3 +78,7 @@ jobs:
             --exclude='.htaccess' \
             -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT" \
             ./ "$SSH_USER@$SSH_HOST:$SSH_DIR"
+
+      - name: Notify search engines via IndexNow (Bing / Yandex etc.)
+        # アップロード成功後、sitemap.xml の全URLを IndexNow に通知する（Bing・Copilot・ChatGPT検索の索引が早まる）
+        run: python3 scripts/indexnow.py
