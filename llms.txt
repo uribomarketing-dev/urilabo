@@ -27,3 +27,9 @@
 - [うりぼベース玉里・清水（グループホーム）](https://urilabo.com/base/)
 - [HOUSE OF INOYA（グループ）](https://inoya.tokyo/)
 - [社歴・お知らせ](https://inoya.tokyo/history/)
+
+## サブページ
+- [Uriboグループ紹介（暮らす・はたらく・食べる・つくる）](https://urilabo.com/uribo/)
+- [IVY（アイビー）— うりぼラボと協業するアクセサリーブランド。対話でのみ届くピアス・イヤリング](https://urilabo.com/ivy/)
+- [1-44 by Uribo labo — 44工程でつくる、うりぼラボ利用者の作品ライン](https://urilabo.com/1-44/)
+- [スマホ見守りサービス「あのね」— グループホーム利用者向けのスマホ安全サポート（現在、新規受付は一時停止中）](https://urilabo.com/smaho/)
