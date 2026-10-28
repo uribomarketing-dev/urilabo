@@ -22,6 +22,7 @@
 - 詳細：https://urilabo.com/base/（住まい・しごと・食・支援の4つで暮らしを支える。うりぼラボと連携）
 
 ## 主要リンク
+- [基本情報（事実一覧：設立日・法人番号・事業所番号・所在地・定員・代表）](https://urilabo.com/about/)
 - [公式サイト](https://urilabo.com/)
 - [うりぼベース玉里・清水（グループホーム）](https://urilabo.com/base/)
 - [HOUSE OF INOYA（グループ）](https://inoya.tokyo/)
