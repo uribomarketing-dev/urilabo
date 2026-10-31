@@ -1,0 +1,54 @@
+name: smaho-pull
+
+# 手動実行専用（Actions タブ → smaho-pull → Run workflow）。
+# スマホ見守りページ（urilabo.com/smaho/）のサーバー上の中身（privacy.html・terms.html・images/ など）を
+# import/smaho ブランチの smaho-server/ に取り込む。サーバーは変更しない。index.html は対象外。
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PORT: "8022"
+      SMAHO_DIR: ${{ vars.SSH_DIR_SMAHO || 'public_html/urilabo.com/smaho/' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          python3 - <<'PY'
+          import os, re
+          k = os.environ["SSH_PRIVATE_KEY"].replace("\r", "").strip()
+          m = re.search(r"(-----BEGIN [A-Z ]+-----)(.*?)(-----END [A-Z ]+-----)", k, re.S)
+          if not m:
+              raise SystemExit("SSH_PRIVATE_KEY の形式が正しくありません")
+          body = re.sub(r"\s+", "", m.group(2))
+          lines = [body[i:i + 64] for i in range(0, len(body), 64)]
+          with open(os.path.expanduser("~/.ssh/id_deploy"), "w") as f:
+              f.write(m.group(1) + "\n" + "\n".join(lines) + "\n" + m.group(3) + "\n")
+          PY
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: pull (server smaho/ -> branch import/smaho)
+        run: |
+          mkdir -p smaho-server
+          rsync -rltvz --exclude='index.html' --exclude='.htaccess' --exclude='*.bak-*' \
+            -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT" "$SSH_USER@$SSH_HOST:$SMAHO_DIR" smaho-server/
+          du -sh smaho-server; find smaho-server -type f | head -100
+          git config user.name "github-actions"; git config user.email "actions@users.noreply.github.com"
+          git checkout -b import/smaho
+          git add -f smaho-server
+          git commit -m "smahoページのサーバー側ファイルを取り込み" || echo "変更なし"
+          git push -f origin import/smaho
