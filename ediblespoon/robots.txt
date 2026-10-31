@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://ediblespoon.urilabo.com/sitemap.xml
