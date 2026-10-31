@@ -74,6 +74,7 @@ jobs:
             --exclude='.github/' \
             --exclude='scripts/' \
             --exclude='docs/' \
+            --exclude='ediblespoon/' \
             --exclude='CNAME' \
             --exclude='.htaccess' \
             -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT" \

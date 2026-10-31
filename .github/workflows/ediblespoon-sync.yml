@@ -1,0 +1,84 @@
+name: ediblespoon-sync
+
+# 手動実行専用（Actions タブ → ediblespoon-sync → Run workflow）。
+# 宇宙で食べられるスプーン特設サイト（ediblespoon.urilabo.com）の ConoHa 側ファイルを扱う。
+#   find … public_html の中身と、特設サイトの置き場所を表示するだけ（何も変更しない）
+#   pull … サーバーの中身を import/ediblespoon ブランチの ediblespoon/ に取り込む（サーバーは変更しない）
+#   push … リポジトリの ediblespoon/ をサーバーへ反映する（index.html は事前に .bak-日時 を作る。削除はしない）
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "find / pull / push"
+        required: true
+        default: "find"
+
+permissions:
+  contents: write
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    env:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_USER: ${{ secrets.SSH_USER }}
+      SSH_PORT: "8022"
+      SPOON_DIR: ${{ vars.SSH_DIR_SPOON || 'public_html/ediblespoon.urilabo.com/' }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up SSH key
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          python3 - <<'PY'
+          import os, re
+          k = os.environ["SSH_PRIVATE_KEY"].replace("\r", "").strip()
+          m = re.search(r"(-----BEGIN [A-Z ]+-----)(.*?)(-----END [A-Z ]+-----)", k, re.S)
+          if not m:
+              raise SystemExit("SSH_PRIVATE_KEY の形式が正しくありません")
+          body = re.sub(r"\s+", "", m.group(2))
+          lines = [body[i:i + 64] for i in range(0, len(body), 64)]
+          with open(os.path.expanduser("~/.ssh/id_deploy"), "w") as f:
+              f.write(m.group(1) + "\n" + "\n".join(lines) + "\n" + m.group(3) + "\n")
+          PY
+          chmod 600 ~/.ssh/id_deploy
+          ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      - name: find (read-only)
+        if: ${{ inputs.mode == 'find' }}
+        run: |
+          ssh -i ~/.ssh/id_deploy -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "SPOON='$SPOON_DIR' bash -s" <<'REMOTE' | tee /tmp/find.log
+          echo "=== public_html ==="; ls -la public_html/ | head -40
+          echo "=== $SPOON ==="; ls -la "$SPOON" 2>&1 | head -60
+          echo "=== index.html を含む ediblespoon 関連フォルダ ==="
+          grep -l "宇宙で食べられるスプーン" public_html/*/index.html 2>/dev/null | head
+          REMOTE
+          body=$(sed 's/%/%25/g' /tmp/find.log | sed ':a;N;$!ba;s/\n/%0A/g' | cut -c1-3500)
+          echo "::notice title=find result::${body}"
+
+      - name: pull (server -> branch import/ediblespoon)
+        if: ${{ inputs.mode == 'pull' }}
+        run: |
+          mkdir -p ediblespoon
+          rsync -rltvz --exclude='.htaccess' --exclude='*.bak-*' --exclude='.well-known/' --exclude='cgi-bin/' \
+            -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT" "$SSH_USER@$SSH_HOST:$SPOON_DIR" ediblespoon/
+          du -sh ediblespoon; find ediblespoon -type f | head -80
+          git config user.name "github-actions"; git config user.email "actions@users.noreply.github.com"
+          git checkout -b import/ediblespoon
+          git add -f ediblespoon
+          git commit -m "ediblespoon特設サイトの現状をサーバーから取り込み" || echo "変更なし"
+          git push -f origin import/ediblespoon
+
+      - name: push (branch ediblespoon/ -> server)
+        if: ${{ inputs.mode == 'push' }}
+        run: |
+          [ -f ediblespoon/index.html ] || { echo "ediblespoon/index.html がありません"; exit 1; }
+          ssh -i ~/.ssh/id_deploy -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "cd '$SPOON_DIR' && cp -p index.html index.html.bak-\$(date +%Y%m%d-%H%M%S) && ls index.html.bak-* | tail -2"
+          rsync -rltvz --checksum --exclude='.htaccess' --exclude='*.bak-*' \
+            -e "ssh -i ~/.ssh/id_deploy -p $SSH_PORT" ediblespoon/ "$SSH_USER@$SSH_HOST:$SPOON_DIR"
+          sleep 3
+          curl -s https://ediblespoon.urilabo.com/ | grep -o '<h1[^>]*>[^<]*' | head -2
