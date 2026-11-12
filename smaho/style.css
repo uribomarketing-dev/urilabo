@@ -99,3 +99,8 @@ a{color:var(--c)}
 }
 
 .doc{overflow-wrap:anywhere}
+
+/* 2026-11-12: 仕上げ。角丸を抑える */
+.notice,.card,.case,.banner,.flow li,.voice{border-radius:4px}
+.btn{border-radius:6px}
+.notice-label{border-radius:3px}

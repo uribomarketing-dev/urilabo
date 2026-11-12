@@ -273,6 +273,14 @@ header{background:rgba(255,253,249,.72);backdrop-filter:blur(14px) saturate(1.5)
 .base-cta{padding:4px 22px 22px;margin-top:auto}
 .base-cta .btn{display:block;text-align:center}
 .base-card{display:flex;flex-direction:column}
+
+/* 2026-11-12: 仕上げ。丸い形とぼかしを抑え、線と余白で整える */
+:root{--radius:6px}
+.tel-btn,.btn,.sticky-cta a{border-radius:6px}
+.hero-badge,.verb,.division .tag{border-radius:3px}
+.metric{border-radius:6px}
+.gallery img{border-radius:4px}
+header,.sticky-cta{backdrop-filter:none!important;-webkit-backdrop-filter:none!important;background:var(--paper)}
 </style>
 
 <link rel="canonical" href="https://urilabo.com/uribo/">
@@ -312,7 +320,7 @@ header{background:rgba(255,253,249,.72);backdrop-filter:blur(14px) saturate(1.5)
       <a href="#group">グループ</a>
       <a href="#faq">よくある質問</a>
     </nav>
-    <a class="tel-btn" href="tel:07084825454">☎ 070-8482-5454</a>
+    <a class="tel-btn" href="tel:07084825454">070-8482-5454</a>
   </div>
 </header>
 
@@ -744,7 +752,7 @@ header{background:rgba(255,253,249,.72);backdrop-filter:blur(14px) saturate(1.5)
 
 <!-- スマホ用固定CTA -->
 <div class="sticky-cta">
-  <a class="call" href="tel:07084825454">☎ 電話する</a>
+  <a class="call" href="tel:07084825454">電話する</a>
   <a class="line" href="https://lin.ee/E0rsAOD">LINEで相談</a>
 </div>
 
