@@ -116,6 +116,15 @@ footer a{color:var(--muted)}
 @media(max-width:560px){dl.facts{grid-template-columns:1fr;gap:2px}dl.facts dt{margin-top:8px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media print{.dock,.cta,.top .btn{display:none}body{padding:0}}
+
+/* 2026-11-12: 仕上げ。角丸とグラデーションを抑え、線と余白で整える */
+:root{--radius:4px}
+.btn,.dock a{border-radius:6px}
+.chips li{border-radius:3px}
+.band{background:var(--soft)}
+.cta{background:var(--soft);border-radius:6px}
+details,.related a{border-radius:4px}
+.top img{border-radius:4px}
 </style>
 </head>
 <body>
