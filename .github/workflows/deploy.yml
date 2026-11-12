@@ -44,6 +44,12 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+          fetch-depth: 0
+
+      - name: Refresh sitemap lastmod from git history
+        # 各ページを最後に直した日を sitemap.xml に入れてからアップロードする（失敗しても公開は止めない）
+        continue-on-error: true
+        run: python3 scripts/update_sitemap.py
 
       - name: Set up SSH key
         env:
