@@ -22,8 +22,25 @@
       '#easyja-note{position:fixed;left:12px;right:12px;bottom:72px;z-index:2147483000;margin:0 auto;max-width:560px;padding:12px 16px;' +
       'border-radius:10px;background:#fff;color:#1f2a37;border:2px solid #1f2a37;font:500 15px/1.6 "Noto Sans JP",system-ui,sans-serif;' +
       'box-shadow:0 2px 10px rgba(0,0,0,.25)}' +
+      '.easy-mode [data-easy]{word-break:keep-all;overflow-wrap:anywhere;line-break:strict}' +
       '@media print{#easyja-btn,#easyja-note{display:none!important}}';
     d.head.appendChild(s);
+  }
+
+  // 画面の下に固定されたバー（電話・LINEなど）があれば、その上にボタンを置く
+  function place() {
+    var h = 0, all = d.body.getElementsByTagName('*');
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (el === btn || el === note) continue;
+      var cs = getComputedStyle(el);
+      if (cs.position === 'fixed' && cs.display !== 'none' && cs.visibility !== 'hidden') {
+        var r = el.getBoundingClientRect();
+        if (r.height > 0 && r.width > innerWidth * 0.5 && Math.abs(innerHeight - r.bottom) < 4) h = Math.max(h, r.height);
+      }
+    }
+    btn.style.bottom = (16 + h) + 'px';
+    if (note) note.style.bottom = (72 + h) + 'px';
   }
 
   function swap(isOn) {
@@ -71,6 +88,9 @@
     btn.addEventListener('click', function () { apply(!on, true); });
     d.body.appendChild(btn);
     if (read()) apply(true, false);
+    place();
+    addEventListener('resize', place);
+    setTimeout(place, 600);
   }
 
   if (d.readyState === 'loading') d.addEventListener('DOMContentLoaded', init); else init();
