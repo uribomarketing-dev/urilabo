@@ -132,6 +132,14 @@ section.alt .story-ornament .ink{stroke:#D6CBAA}
 .twin-card h3{font-size:14px;font-weight:500;color:#D2BD88;letter-spacing:.1em;margin-bottom:10px}
 .twin-card p{font-size:14px;line-height:1.95;color:#C4C9BF}
 .twin-note{margin:29px auto 0;max-width:54em;font-size:14px;color:#B9C0B6;line-height:2}
+/* 明るい背景の節（#media）では、暗い背景用の薄い文字色を濃くする */
+#media .twin-lead{color:#2F382F}
+#media .twin-lead b{color:var(--ivy-deep)}
+#media .twin-grid{border-top-color:var(--line);border-bottom-color:var(--line)}
+#media .twin-card{border-right-color:var(--line)}
+#media .twin-card h3{color:#7A6636}
+#media .twin-card p{color:#3A443B}
+#media .twin-note{color:#4E584F}
 
 /* Stellar feature */
 .stellar{position:relative;overflow:hidden;background:#E8E4D9;color:var(--ink);padding:clamp(28px,5vw,58px);}
