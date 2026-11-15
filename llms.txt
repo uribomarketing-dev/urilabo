@@ -41,6 +41,10 @@
 - [基本情報（事実一覧：設立日・法人番号・事業所番号・所在地・定員・代表）](https://urilabo.com/about/)
 - [公式サイト](https://urilabo.com/)
 - [うりぼベース玉里・清水（グループホーム）](https://urilabo.com/base/)
+- [うりぼベース玉里・うりぼベース清水：空き状況](https://urilabo.com/base/aki/)
+- [うりぼベース玉里・うりぼベース清水：毎月かかる費用](https://urilabo.com/base/hiyou/)
+- [うりぼベース玉里・うりぼベース清水：見学と体験利用の流れ](https://urilabo.com/base/kengaku/)
+- [うりぼベース玉里・うりぼベース清水：男性が暮らすグループホーム](https://urilabo.com/base/dansei/)
 - [HOUSE OF INOYA（グループ）](https://inoya.tokyo/)
 - [社歴・お知らせ](https://inoya.tokyo/history/)
 
