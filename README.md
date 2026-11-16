@@ -17,6 +17,13 @@ main に入った変更は、GitHub Actions（.github/workflows/deploy.yml）が
 
 トップの「最新の動き」と「うりぼラボの歩み」は scripts/update_news.py が自動で書き換えます。手では直しません。
 
+## 事実（日付・番号・金額・時間）を変えたときに直すファイル
+
+1. 該当ページのHTML（本文と、同じページの構造化データ）
+2. llms.txt
+3. llms-full.txt（python3 scripts/build_llms_full.py で作り直す）
+4. sitemap.xml は deploy のときに自動で日付が入ります
+
 ## 関連
 
 - HOUSE OF INOYA（グループ全体）: https://inoya.tokyo/
