@@ -1,5 +1,5 @@
 # うりぼラボ — urilabo.com
-# AI検索（ChatGPT検索・ユーザー参照）は許可。GPTBot（学習用収集）のみ拒否。
+# AI検索（ChatGPT検索・ユーザー参照）と GPTBot（学習用収集）をすべて許可（2026年11月23日に方針変更）。
 
 User-agent: OAI-SearchBot
 Allow: /
@@ -8,7 +8,7 @@ User-agent: ChatGPT-User
 Allow: /
 
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
 User-agent: *
 Allow: /
