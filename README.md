@@ -24,6 +24,10 @@ main に入った変更は、GitHub Actions（.github/workflows/deploy.yml）が
 3. llms-full.txt（python3 scripts/build_llms_full.py で作り直す）
 4. sitemap.xml は deploy のときに自動で日付が入ります
 
+## うりぼベースの空き状況の日付を変えるとき
+
+`python3 scripts/update_vacancy.py 2026年11月23日 2026年12月1日` のように、今の日付と新しい日付を渡します。base/ の5ページと llms-full.txt の日付がまとめて変わります。llms-full.txt は scripts/build_llms_full.py で作り直しません（番地と099番号が戻るため）。
+
 ## 関連
 
 - HOUSE OF INOYA（グループ全体）: https://inoya.tokyo/
